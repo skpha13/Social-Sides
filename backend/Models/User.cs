@@ -12,4 +12,8 @@ public class User : BaseEntity
 
     public ICollection<Post> Posts { get; set; }
     public ICollection<UserFollowsCategory> Categories { get; set; }
+    public Profile Profile { get; set; }
+    public Guid ProfileId { get; set; }
+
+    public ICollection<Notification> Notifications { get; set; }
 }

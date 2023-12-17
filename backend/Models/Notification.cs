@@ -1,6 +1,12 @@
-﻿namespace backend.Models;
+﻿using backend.Models.Base;
 
-public class Notification
+namespace backend.Models;
+
+public class Notification : BaseEntity
 {
+    public User User { get; set; }
+    public Guid UserId { get; set; }
     
+    public NotificationType NotificationType { get; set; }
+    public Guid NotificationTypeId { get; set; }
 }
