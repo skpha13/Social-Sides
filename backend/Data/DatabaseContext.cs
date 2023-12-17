@@ -18,7 +18,23 @@ namespace backend.Data
 		{
 			modelBuilder.Entity<Category>()
 				.HasMany(p => p.Posts)
-				.WithOne(c => c.Category);
+				.WithOne(c => c.Category)
+				.HasForeignKey(p => p.CategoryId);
+
+			modelBuilder.Entity<User>()
+				.HasMany(p => p.Posts)
+				.WithOne(u => u.User)
+				.HasForeignKey(p => p.UserId);
+
+			modelBuilder.Entity<Category>()
+				.HasMany(uc => uc.Users)
+				.WithOne(c => c.Category)
+				.HasForeignKey(uc => uc.CategoryId);
+			
+			modelBuilder.Entity<User>()
+				.HasMany(uc => uc.Categories)
+				.WithOne(c => c.User)
+				.HasForeignKey(uc => uc.UserId);
 		}
 	}
 }
