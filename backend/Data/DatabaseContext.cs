@@ -14,6 +14,8 @@ namespace backend.Data
 		public DbSet<Notification> Notifications { get; set; }
 		public DbSet<NotificationType> NotificationTypes { get; set; }
 		public DbSet<UserFollowsCategory> UserFollowsCategories { get; set; }
+		public DbSet<Comment> Comments { get; set; }
+		public DbSet<Saved> Saves { get; set; }
 		
 		public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
@@ -31,7 +33,7 @@ namespace backend.Data
 				.WithOne(u => u.User)
 				.HasForeignKey(p => p.UserId);
 
-			// Category - User
+			// User - Follow - Category
 			modelBuilder.Entity<UserFollowsCategory>().HasKey(ob => new { ob.UserId, ob.CategoryId });
 			
 			modelBuilder.Entity<Category>()
@@ -48,19 +50,47 @@ namespace backend.Data
 			modelBuilder.Entity<User>()
 				.HasOne(p => p.Profile)
 				.WithOne(u => u.User)
-				.HasForeignKey<User>(u => u.ProfileId);
+				.HasForeignKey<Profile>(p => p.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 			
 			// User - Notification
 			modelBuilder.Entity<User>()
 				.HasMany(n => n.Notifications)
 				.WithOne(u => u.User)
-				.HasForeignKey(n => n.UserId);
+				.HasForeignKey(n => n.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
 
 			// Notification - NotificationType
 			modelBuilder.Entity<Notification>()
 				.HasOne(n => n.NotificationType)
 				.WithOne(nt => nt.Notification)
-				.HasForeignKey<Notification>(nt => nt.NotificationTypeId);
+				.HasForeignKey<Notification>(nt => nt.NotificationTypeId)
+				.OnDelete(DeleteBehavior.Cascade);
+			
+			// User - Comment
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.Comments)
+				.WithOne(c => c.User)
+				.HasForeignKey(c => c.UserId);
+
+			// Post - Comment
+			modelBuilder.Entity<Post>()
+				.HasMany(p => p.Comments)
+				.WithOne(c => c.Post)
+				.HasForeignKey(c => c.PostId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			// User - Save - Post
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.Saves)
+				.WithOne(s => s.User)
+				.HasForeignKey(s => s.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+
+			modelBuilder.Entity<Post>()
+				.HasMany(p => p.Saves)
+				.WithOne(s => s.Post)
+				.HasForeignKey(s => s.PostId);
 		}
 	}
 }

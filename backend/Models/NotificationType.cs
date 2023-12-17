@@ -4,5 +4,5 @@ namespace backend.Models;
 
 public class NotificationType : BaseEntity
 {
-    public Notification Notification;
+    public Notification? Notification { get; set; }
 }
