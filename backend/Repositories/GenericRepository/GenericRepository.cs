@@ -1,61 +1,62 @@
-﻿using backend.Models.Base;
+﻿using backend.Data;
+using backend.Models.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories.GenericRepository;
 
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
-    protected readonly DbContext DbContext;
-    protected readonly DbSet<TEntity> Table;
+    protected readonly DatabaseContext _dbContext;
+    protected readonly DbSet<TEntity> _table;
 
-    public GenericRepository(DbContext dbContext)
+    public GenericRepository(DatabaseContext dbContext)
     {
-        DbContext = dbContext;
-        Table = this.DbContext.Set<TEntity>();
+        _dbContext = dbContext;
+        _table = _dbContext.Set<TEntity>();
     }
     
     public async Task<List<TEntity>> GetAllAsync()
     {
-        return await Table.AsNoTracking().ToListAsync();
+        return await _table.AsNoTracking().ToListAsync();
     }
 
     public async Task CreateAsync(TEntity entity)
     {
-        await Table.AddAsync(entity);
+        await _table.AddAsync(entity);
     }
 
     public async Task CreateRangeAsync(IEnumerable<TEntity> entities)
     {
-        await Table.AddRangeAsync(entities);
+        await _table.AddRangeAsync(entities);
     }
 
     public void Update(TEntity entity)
     {
-        Table.Update(entity);
+        _table.Update(entity);
     }
 
     public void UpdateRange(IEnumerable<TEntity> entities)
     {
-        Table.UpdateRange(entities);
+        _table.UpdateRange(entities);
     }
 
     public void Delete(TEntity entity)
     {
-        Table.Remove(entity);
+        _table.Remove(entity);
     }
 
     public void DeleteRange(IEnumerable<TEntity> entities)
     {
-        Table.RemoveRange(entities);
+        _table.RemoveRange(entities);
     }
 
     public async Task<TEntity?>? FindByIdAsync(Guid id)
     {
-        return await Table.FindAsync(id);
+        return await _table.FindAsync(id);
     }
 
     public async Task<bool> SaveAsync()
     {
-        return await DbContext.SaveChangesAsync() > 0;
+        return await _dbContext.SaveChangesAsync() > 0;
     }
 }
