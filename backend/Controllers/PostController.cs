@@ -1,3 +1,5 @@
+using backend.Models;
+using backend.Models.DTOs;
 using backend.Services.PostService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +17,10 @@ namespace backend.Controllers
         }
 
         [HttpGet("posts")]
-        public IActionResult GetAllPosts()
+        public async Task<ActionResult<PostDTO>> GetAllPosts()
         {
-            return Ok(_postService.GetAllPosts());
+            var posts = await _postService.GetAllPosts();
+            return Ok(posts);
         }
     }
 }

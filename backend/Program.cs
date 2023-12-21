@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddControllers();
+
 builder.Services.AddDbContext<DatabaseContext>(
 	options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))	
 );
@@ -14,9 +15,9 @@ builder.Services.AddDbContext<DatabaseContext>(
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
