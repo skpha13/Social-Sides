@@ -2,5 +2,5 @@
 
 public class ProfileDTO
 {
-    public UserDTO User;
+    public String username { get; set; }
 }

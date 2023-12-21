@@ -9,12 +9,14 @@ public class MapperProfile : AutoMapper.Profile
 {
     public MapperProfile()
     {
-        CreateMap<Post, PostDTO>()
-            .ForMember(dest => dest.User, opt => opt.Ignore())
-            .ForMember(dest => dest.Category, opt => opt.Ignore())
-            .ForMember(dest => dest.UserId, opt => opt.Ignore())
-            .ForMember(dest => dest.CategoryId, opt => opt.Ignore());
+        CreateMap<Post, PostDTO>();
         CreateMap<PostDTO, Post>();
+
+        CreateMap<Post, PostIncludesDTO>()
+            .ForMember(p => p.User, opt => opt.Ignore())
+            .ForMember(p => p.Category, opt => opt.Ignore());
+            // .ForMember(p => p.Category, opt => opt.MapFrom(src => src.Category))
+            // .ForMember(p => p.User, opt => opt.MapFrom(src => src.User));
 
         CreateMap<Category, CategoryDTO>();
         CreateMap<CategoryDTO, Category>();
@@ -22,11 +24,10 @@ public class MapperProfile : AutoMapper.Profile
         CreateMap<Comment, CommentDTO>();
         CreateMap<CommentDTO, Comment>();
 
-        CreateMap<Profile, PostDTO>().ForMember(dest => dest.User, opt => opt.Ignore());
-        CreateMap<PostDTO, Profile>();
+        CreateMap<Profile, ProfileDTO>();
+        CreateMap<ProfileDTO, Profile>();
 
-        CreateMap<User, UserDTO>()
-            .ForMember(dest => dest.Profile, opt => opt.Ignore());
+        CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>();
     }
 }

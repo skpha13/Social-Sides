@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using backend.Models;
 using backend.Models.DTOs;
 using backend.Repositories.PostRepository;
 
@@ -18,6 +19,12 @@ public class PostService : IPostService
     public async Task<List<PostDTO>> GetAllPosts()
     {
         var postList = await _postRepository.GetAllAsync();
-        return _mapper.Map<List<PostDTO>>(postList);
+        var postDTOs = postList.Select(p => new PostDTO()
+        {
+            Id = p.Id,
+            Title = p.Title,
+            Text = p.Text
+        }).ToList();
+        return postDTOs;
     }
 }
