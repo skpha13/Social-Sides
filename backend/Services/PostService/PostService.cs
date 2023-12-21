@@ -7,8 +7,8 @@ namespace backend.Services.PostService;
 
 public class PostService : IPostService
 {
-    private IPostRepository _postRepository;
-    private IMapper _mapper;
+    private readonly IPostRepository _postRepository;
+    private readonly IMapper _mapper;
 
     public PostService(IPostRepository postRepository, IMapper mapper)
     {
@@ -18,13 +18,7 @@ public class PostService : IPostService
     
     public async Task<List<PostDTO>> GetAllPosts()
     {
-        var postList = await _postRepository.GetAllAsync();
-        var postDTOs = postList.Select(p => new PostDTO()
-        {
-            Id = p.Id,
-            Title = p.Title,
-            Text = p.Text
-        }).ToList();
-        return postDTOs;
+        var postList =  await _postRepository.GetAllAsync();
+        return _mapper.Map<List<PostDTO>>(postList);
     }
 }
