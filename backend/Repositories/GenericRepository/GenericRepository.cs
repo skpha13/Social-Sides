@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models.Base;
+using backend.Models.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repositories.GenericRepository;
@@ -43,6 +44,14 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public void Delete(TEntity entity)
     {
         _table.Remove(entity);
+    }
+
+    public bool DeleteById(Guid id)
+    {
+        var entity = _table.Find(id);
+        if (entity == null) return false;
+        _table.Remove(entity);
+        return true;
     }
 
     public void DeleteRange(IEnumerable<TEntity> entities)

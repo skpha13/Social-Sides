@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.Responses;
 using backend.Repositories.PostRepository;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Services.PostService;
 
@@ -20,5 +22,16 @@ public class PostService : IPostService
     {
         var postList =  await _postRepository.GetAllAsync();
         return _mapper.Map<List<PostDTO>>(postList);
+    }
+
+    public bool DeletePostById(Guid id)
+    {
+        return _postRepository.DeleteById(id);
+    }
+
+    public List<PostIncludesDTO> GetPostsWithIncludes(string include)
+    {
+        var posts = _postRepository.GetAllPostsWithIncludes(include);
+        return _mapper.Map<List<PostIncludesDTO>>(posts);
     }
 }

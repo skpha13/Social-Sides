@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.RelationsDTOs;
 using Profile = AutoMapper.Profile;
 
 namespace backend.Helpers;
@@ -13,8 +14,16 @@ public class MapperProfile : AutoMapper.Profile
         CreateMap<PostDTO, Post>();
 
         CreateMap<Post, PostIncludesDTO>()
-            .ForMember(p => p.User, opt => opt.Ignore())
-            .ForMember(p => p.Category, opt => opt.Ignore());
+            .ForMember(p => p.Relations,
+                opt => opt.MapFrom<PostRelationsDTO>(src => new PostRelationsDTO()
+                {
+                    Category = src.Category,
+                    User = src.User,
+                    Comments = src.Comments,
+                    Saves = src.Saves
+                }));
+            // .ForMember(p => p.User, opt => opt.Ignore())
+            // .ForMember(p => p.Category, opt => opt.Ignore());
             // .ForMember(p => p.Category, opt => opt.MapFrom(src => src.Category))
             // .ForMember(p => p.User, opt => opt.MapFrom(src => src.User));
 
