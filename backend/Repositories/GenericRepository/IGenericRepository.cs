@@ -10,6 +10,7 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     void Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
     void Delete(TEntity entity);
+    bool DeleteById(Guid id);
     void DeleteRange(IEnumerable<TEntity> entities);
     Task<TEntity?>? FindByIdAsync(Guid id);
     Task<bool> SaveAsync();
