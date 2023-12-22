@@ -1,5 +1,6 @@
 using backend.Data;
 using backend.Helpers.Extensions;
+using backend.Helpers.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +19,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSeeders();
 
 var app = builder.Build();
+SeedData(app);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,3 +38,19 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SeedData(IHost app)
+{
+	var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+	using (var scope = scopedFactory.CreateScope())
+	{
+		var categoryService = scope.ServiceProvider.GetService<CategorySeeder>();
+		categoryService.SeedInitialCategories();
+		var userService = scope.ServiceProvider.GetService<UserSeeder>();
+		userService.SeedInitialUsers();
+		var profileService = scope.ServiceProvider.GetService<ProfileSeeder>();
+		profileService.SeedInitialProfiles();
+		var postService = scope.ServiceProvider.GetService<PostSeeder>();
+		postService.SeedInitialPosts();
+	}
+}
