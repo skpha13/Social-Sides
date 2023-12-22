@@ -1,10 +1,12 @@
-﻿namespace backend.Models.RelationsDTOs;
+﻿using backend.Models.DTOs;
+
+namespace backend.Models.RelationsDTOs;
 
 public class PostRelationsDTO
 {
-    public Category Category { get; set; }
-    public User User { get; set; }
+    public CategoryDTO Category { get; set; }
+    public UserDTO User { get; set; }
     
-    public ICollection<Comment>? Comments { get; set; }
-    public ICollection<Saved>? Saves { get; set; }
+        // public ICollection<CommentDTO>? Comments { get; set; }
+        // public ICollection<SavedDto>? Saves { get; set; }
 }

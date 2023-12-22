@@ -29,7 +29,7 @@ public class PostService : IPostService
         return _postRepository.DeleteById(id);
     }
 
-    public List<PostIncludesDTO> GetPostsWithIncludes(string include)
+    public List<PostIncludesDTO> GetPostsWithIncludes(string? include)
     {
         var posts = _postRepository.GetAllPostsWithIncludes(include);
         return _mapper.Map<List<PostIncludesDTO>>(posts);

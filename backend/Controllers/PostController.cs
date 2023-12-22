@@ -23,7 +23,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("posts/{postId}")]
-        public IActionResult GetPostWithIncludes(Guid postId, [FromQuery] string include)
+        public IActionResult GetPostWithIncludes(Guid postId, [FromQuery] string? include)
         {
             var posts = _postService.GetPostsWithIncludes(include);
             if (posts.Any())

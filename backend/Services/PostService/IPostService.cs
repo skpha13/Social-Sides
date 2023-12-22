@@ -9,5 +9,5 @@ public interface IPostService
 {
     Task<List<PostDTO>> GetAllPosts();
     bool DeletePostById(Guid id);
-    List<PostIncludesDTO> GetPostsWithIncludes(string include);
+    List<PostIncludesDTO> GetPostsWithIncludes(string? include);
 }

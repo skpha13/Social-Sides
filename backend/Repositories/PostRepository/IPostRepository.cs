@@ -7,5 +7,5 @@ namespace backend.Repositories.PostRepository;
 
 public interface IPostRepository : IGenericRepository<Post>
 {
-    List<Post>  GetAllPostsWithIncludes(string include);
+    List<Post>  GetAllPostsWithIncludes(string? include);
 }
