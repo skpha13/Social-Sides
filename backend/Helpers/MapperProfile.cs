@@ -22,21 +22,22 @@ public class MapperProfile : AutoMapper.Profile
         CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>();
         
+        // TODO: see how to make mapping simpler
         CreateMap<Post, PostIncludesDTO>()
             .ForMember(p => p.Relations,
                 opt => opt.MapFrom(src => new PostRelationsDTO()
                 {
-                    Category = new CategoryDTO()
+                    Category = (src.Category != null) ? new CategoryDTO()
                     {
                         Title = src.Category.Title
-                    },
-                    User = new UserDTO()
+                    } : null,
+                    User = (src.User != null) ? new UserDTO()
                     {
                         Username = src.User.Username,
                         FirstName = src.User.FirstName,
                         LastName = src.User.LastName,
                         Email = src.User.Email
-                    },
+                    } : null,
                     // Comments = src.Comments,
                     // Saves = src.Saves
                 }));

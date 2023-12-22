@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.RelationsDTOs;
 using backend.Models.Responses;
 using backend.Repositories.PostRepository;
 using Microsoft.AspNetCore.Mvc;
