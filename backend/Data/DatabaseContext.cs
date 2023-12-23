@@ -1,16 +1,15 @@
 ﻿using backend.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Identity.Client;
 
 namespace backend.Data
 {
-	public class DatabaseContext : DbContext
+	public class DatabaseContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 	{
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<Category> Categories { get; set; }
 		public DbSet<User> Users { get; set; }
-		public DbSet<Profile> Profiles { get; set; }
 		public DbSet<Notification> Notifications { get; set; }
 		public DbSet<NotificationType> NotificationTypes { get; set; }
 		public DbSet<UserFollowsCategory> UserFollowsCategories { get; set; }
@@ -21,6 +20,8 @@ namespace backend.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+			
 			// Category - Post
 			modelBuilder.Entity<Category>()
 				.HasMany(p => p.Posts)
@@ -45,13 +46,6 @@ namespace backend.Data
 				.HasMany(uc => uc.Categories)
 				.WithOne(c => c.User)
 				.HasForeignKey(uc => uc.UserId);
-
-			// User - Profile
-			modelBuilder.Entity<User>()
-				.HasOne(p => p.Profile)
-				.WithOne(u => u.User)
-				.HasForeignKey<Profile>(p => p.UserId)
-				.OnDelete(DeleteBehavior.Cascade);
 			
 			// User - Notification
 			modelBuilder.Entity<User>()
