@@ -2,6 +2,7 @@ using backend.Data;
 using backend.Helpers.Extensions;
 using backend.Helpers.Seeders;
 using backend.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,13 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(opt => opt.SignIn.Require
 	.AddRoles<IdentityRole<Guid>>()
 	.AddEntityFrameworkStores<DatabaseContext>()
 	.AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+	.AddCookie(options =>
+	{
+		options.ExpireTimeSpan = TimeSpan.FromDays(3);
+		options.SlidingExpiration = true;
+	});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -41,6 +49,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
