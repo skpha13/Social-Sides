@@ -33,9 +33,7 @@ public class MapperProfile : AutoMapper.Profile
                     } : null,
                     User = (src.User != null) ? new UserDTO()
                     {
-                        Username = src.User.Username,
-                        FirstName = src.User.FirstName,
-                        LastName = src.User.LastName,
+                        UserName = src.User.UserName,
                         Email = src.User.Email
                     } : null,
                     // Comments = src.Comments,

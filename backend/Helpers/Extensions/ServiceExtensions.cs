@@ -23,10 +23,12 @@ public static class ServiceExtensions
     public static IServiceCollection AddSeeders(this IServiceCollection services)
     {
         services.AddTransient<CategorySeeder>();
-        services.AddTransient<ProfileSeeder>();
         services.AddTransient<UserSeeder>();
         services.AddTransient<PostSeeder>();
-
+        services.AddTransient<RoleSeeder>();
+        services.AddTransient<UserSeeder>();
+        services.AddTransient<UserRoleSeeder>();
+        
         return services;
     }
 }

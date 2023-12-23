@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace backend.Helpers.Seeders;
 
@@ -21,35 +22,32 @@ public class UserSeeder
                 new User()
                 {
                     Id = new Guid("439c82bf-f8cd-4300-a467-03a1f85a6d63"),
-                    DateCreated = DateTime.Now,
-                    LastModified = DateTime.Now,
-                    Username = "skpha",
-                    FirstName = "Adrian",
-                    LastName = "Mincu",
+                    UserName = "skpha",
+                    NormalizedUserName = "skpha".ToUpper(),
+                    EmailConfirmed = true,
                     Email = "mal13adi03@gmail.com",
-                    Password = "parolaskpha"
+                    NormalizedEmail = "mal13adi03@gmail.com".ToUpper(),
+                    PasswordHash = BCryptNet.HashPassword("parolaskpha")
                 },
                 new User()
                 {
                     Id = new Guid("310a3aac-1bd8-43d5-ba39-d20f15a7b5b1"),
-                    DateCreated = DateTime.Now,
-                    LastModified = DateTime.Now,
-                    Username = "Matoka26",
-                    FirstName = "Mihai",
-                    LastName = "Dogaru",
+                    UserName = "Matoka26",
+                    NormalizedUserName = "Matoka26".ToUpper(),
                     Email = "dogaru_mihail@gmail.com",
-                    Password = "parolamatoka26"
+                    EmailConfirmed = true,
+                    NormalizedEmail = "dogaru_mihail@gmail.com".ToUpper(),
+                    PasswordHash = BCryptNet.HashPassword("parolamatoka26") 
                 },
                 new User()
                 {
                     Id = new Guid("34b460b7-936a-4293-bde2-a835a99f2e52"),
-                    DateCreated = DateTime.Now,
-                    LastModified = DateTime.Now,
-                    Username = "Qarty",
-                    FirstName = "Razvan",
-                    LastName = "Mircea",
+                    UserName = "Qarty",
+                    NormalizedUserName = "Qarty".ToUpper(),
                     Email = "mirceaandreirazvan@gmail.com",
-                    Password = "parolaqarty"
+                    EmailConfirmed = true,
+                    NormalizedEmail = "mirceaandreirazvan@gmail.com".ToUpper(),
+                    PasswordHash= BCryptNet.HashPassword("parolaqarty") 
                 }
             };
             
