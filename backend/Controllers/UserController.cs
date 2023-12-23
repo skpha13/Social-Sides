@@ -20,11 +20,23 @@ namespace backend.Controllers
         {
             _userService = userService;
         }
-
+        
         [HttpGet("user/{id}")]
         public async Task<IActionResult> GetUser(Guid id)
         {
-            return Ok(await _userService.GetUserById(id));
+            try
+            {
+                return Ok(await _userService.GetUserById(id));
+            }
+            catch (Exception exception)
+            {
+                return NotFound(new ErrorResponse()
+                {
+                    StatusCode = 404,
+                    Message = exception.Message
+                });
+            }
+            
         }
 
         [HttpPost("create")]
@@ -43,5 +55,45 @@ namespace backend.Controllers
                 });
             }
         }
+
+        [HttpPatch("update")]
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDTO user)
+        {
+            try
+            {
+                return Ok(await _userService.Update(user));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                   StatusCode = 500,
+                   Message = exception.Message
+                });
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            try
+            {
+                await _userService.Delete(id);
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "User was deleted successfully"
+                });
+            }
+            catch (Exception exception)
+            {
+                // TODO: see how to throw the result of identity to make better statuscodes
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 500,
+                    Message = exception.Message
+                });
+            }
+        } 
     }
 }

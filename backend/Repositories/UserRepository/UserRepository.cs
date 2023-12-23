@@ -31,13 +31,21 @@ public class UserRepository : IUserRepository
 
     public async Task Update(User user)
     {
+        user.SecurityStamp = Guid.NewGuid().ToString();
         if ((await _userManager.UpdateAsync(user)).Succeeded == false)
             throw new Exception("User update failed");
     }
 
-    public async Task Delete(User user)
+    public async Task Delete(Guid userId)
     {
-        if ((await _userManager.DeleteAsync(user)).Succeeded == false)
-            throw new Exception("User update failed");
+        var existingUser = await GetUserById(userId);
+        
+        if (existingUser == null)
+        {
+            throw new Exception("User not found");
+        }
+        
+        if ((await _userManager.DeleteAsync(existingUser)).Succeeded == false)
+            throw new Exception("User delete failed");
     }
 }

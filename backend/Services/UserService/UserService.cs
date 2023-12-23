@@ -19,6 +19,7 @@ public class UserService : IUserService
     public async Task<UserDTO> GetUserById(Guid id)
     {
         var user = await _userRepository.GetUserById(id);
+        if (user == null) throw new Exception("User not found");
         return _mapper.Map<UserDTO>(user);
     }
 
@@ -29,15 +30,25 @@ public class UserService : IUserService
         return _mapper.Map<UserDTO>(userMapped);
     }
 
-    public async Task Update(UserDTO user)
+    public async Task<UserDTO> Update(UserUpdateDTO user)
     {
-        var userMapped = _mapper.Map<User>(user);
-        await _userRepository.Update(userMapped);
+        var existingUser = await _userRepository.GetUserById(user.Id);
+
+        if (existingUser == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        if (user.UserName != null) existingUser.UserName = user.UserName;
+        if (user.Email != null) existingUser.Email = user.Email;
+        if (user.Password != null) existingUser.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+        
+        await _userRepository.Update(existingUser);
+        return _mapper.Map<UserDTO>(existingUser);
     }
 
-    public async Task Delete(UserDTO user)
+    public async Task Delete(Guid userId)
     {
-        var userMapped = _mapper.Map<User>(user);
-        await _userRepository.Delete(userMapped);
+        await _userRepository.Delete(userId);
     }
 }
