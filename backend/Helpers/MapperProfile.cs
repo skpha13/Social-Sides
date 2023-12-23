@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using backend.Models;
+﻿using backend.Models;
 using backend.Models.DTOs;
 using backend.Models.RelationsDTOs;
 using Profile = AutoMapper.Profile;
+using BCryptNet = BCrypt.Net.BCrypt;
 
 namespace backend.Helpers;
 
@@ -20,7 +20,15 @@ public class MapperProfile : AutoMapper.Profile
         CreateMap<ProfileDTO, Profile>();
         
         CreateMap<User, UserDTO>();
-        CreateMap<UserDTO, User>();
+        CreateMap<UserDTO, User>()
+            .ForMember(u => u.Id, 
+                opt => opt.MapFrom(src => new Guid()));
+
+        CreateMap<UserCreateDTO, User>()
+            .ForMember(u => u.Id, opt => 
+                    opt.MapFrom(src => new Guid()))
+            .ForMember(u => u.PasswordHash, opt => 
+                opt.MapFrom(src => BCryptNet.HashPassword(src.Password)));
         
         // TODO: see how to make mapping simpler
         CreateMap<Post, PostIncludesDTO>()

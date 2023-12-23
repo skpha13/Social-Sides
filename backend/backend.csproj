@@ -29,13 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Repositories\CategoryRepository\" />
     <Folder Include="Repositories\CommentRepository\" />
     <Folder Include="Repositories\NotificationRepository\" />
     <Folder Include="Repositories\NotificationTypeRepository\" />
     <Folder Include="Repositories\ProfileRepository\" />
-    <Folder Include="Repositories\UserRepository\" />
   </ItemGroup>
 
 </Project>
