@@ -20,6 +20,8 @@ namespace backend.Controllers
         }
         
         [HttpGet("user/{id}")]
+        [ProducesResponseType(typeof(UserDTO), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<IActionResult> GetUser(Guid id)
         {
             try
@@ -38,6 +40,8 @@ namespace backend.Controllers
         }
 
         [HttpPost("create")]
+        [ProducesResponseType(typeof(UserCreateDTO), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateDTO user)
         {
             try
@@ -56,6 +60,8 @@ namespace backend.Controllers
 
         [Authorize]
         [HttpPatch("update")]
+        [ProducesResponseType(typeof(UserDTO), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDTO user)
         {
             try
@@ -73,6 +79,8 @@ namespace backend.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             try
@@ -97,6 +105,8 @@ namespace backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginBody)
         {
             try

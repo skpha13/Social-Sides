@@ -42,19 +42,19 @@ const login = async () => {
       "email": "mal13adi03@gmail.com",
       "password": "parolaskpha"
     }
-    const response = await axios.post("http://localhost:5052/api/User/login", payload, {withCredentials: true});
+    const response = await axios.post("https://localhost:7116/api/User/login", payload, {withCredentials: true});
     console.log(response);
 
 
-    let payload2 =
+   /* let payload2 =
         {
           "id": "439c82bf-f8cd-4300-a467-03a1f85a6d63",
           "userName": "skpha3",
           "email": "test@gmail.com",
           "password": "test123test"
         }
-    const response2 = await axios.patch("http://localhost:5052/api/User/update",payload2, {withCredentials: true});
-    console.log(response2);
+    const response2 = await axios.patch("https://localhost:7116/api/User/update",payload2, {withCredentials: true});
+    console.log(response2);*/
 
   } catch (error) {
     console.log(error);
