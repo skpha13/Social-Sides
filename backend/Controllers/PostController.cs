@@ -1,11 +1,13 @@
 using backend.Models.Responses;
 using backend.Services.PostService;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("_myAllowSpecificOrigins")]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;

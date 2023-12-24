@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using backend.Models.DTOs;
 using backend.Models.Responses;
 using backend.Services.UserService;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("_myAllowSpecificOrigins")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -56,6 +54,7 @@ namespace backend.Controllers
             }
         }
 
+        [Authorize]
         [HttpPatch("update")]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDTO user)
         {
@@ -94,6 +93,24 @@ namespace backend.Controllers
                     Message = exception.Message
                 });
             }
-        } 
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginBody)
+        {
+            try
+            {
+                return Ok(await _userService.Login(loginBody));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 500,
+                    Message = exception.Message
+                });
+            }
+        }
     }
 }

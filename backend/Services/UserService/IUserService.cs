@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.Responses;
 
 namespace backend.Services.UserService;
 
@@ -9,4 +10,5 @@ public interface IUserService
     Task<UserDTO> CreateAsync(UserCreateDTO user);
     Task<UserDTO> Update(UserUpdateDTO user);
     Task Delete(Guid userId);
+    Task<ErrorResponse> Login(LoginDTO loginModel);
 }
