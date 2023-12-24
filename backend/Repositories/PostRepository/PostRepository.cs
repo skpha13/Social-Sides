@@ -11,7 +11,6 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
     
     public List<Post> GetAllPostsWithIncludes(string? include)
     {
-        // TODO: possible object cycle
         IQueryable<Post> query = _table;
         
         if (!string.IsNullOrEmpty(include))

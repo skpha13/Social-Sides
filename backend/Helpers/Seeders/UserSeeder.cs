@@ -28,7 +28,8 @@ public class UserSeeder
                     EmailConfirmed = true,
                     Email = "mal13adi03@gmail.com",
                     NormalizedEmail = "mal13adi03@gmail.com".ToUpper(),
-                    PasswordHash = hasher.HashPassword(null,"parolaskpha")
+                    PasswordHash = hasher.HashPassword(null,"parolaskpha"),
+                    SecurityStamp = Guid.NewGuid().ToString()
                 },
                 new User()
                 {
@@ -38,7 +39,8 @@ public class UserSeeder
                     Email = "dogaru_mihail@gmail.com",
                     EmailConfirmed = true,
                     NormalizedEmail = "dogaru_mihail@gmail.com".ToUpper(),
-                    PasswordHash = hasher.HashPassword(null,"parolamatoka26") 
+                    PasswordHash = hasher.HashPassword(null,"parolamatoka26"),
+                    SecurityStamp = Guid.NewGuid().ToString()
                 },
                 new User()
                 {
@@ -48,7 +50,8 @@ public class UserSeeder
                     Email = "mirceaandreirazvan@gmail.com",
                     EmailConfirmed = true,
                     NormalizedEmail = "mirceaandreirazvan@gmail.com".ToUpper(),
-                    PasswordHash=hasher.HashPassword(null,"parolaqarty") 
+                    PasswordHash=hasher.HashPassword(null,"parolaqarty"),
+                    SecurityStamp = Guid.NewGuid().ToString()
                 }
             };
             

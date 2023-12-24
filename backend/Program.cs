@@ -7,8 +7,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+	{
+		policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+			.AllowAnyHeader()
+			.AllowAnyMethod()
+			.AllowCredentials();
+	});
+});
 
 builder.Services.AddControllers();
 
@@ -16,17 +26,19 @@ builder.Services.AddDbContext<DatabaseContext>(
 	options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))	
 );
 
-builder.Services.AddIdentity<User, IdentityRole<Guid>>(opt => opt.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentity<User, IdentityRole<Guid>>()
 	.AddRoles<IdentityRole<Guid>>()
-	.AddEntityFrameworkStores<DatabaseContext>()
-	.AddDefaultTokenProviders();
+	.AddEntityFrameworkStores<DatabaseContext>();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-	.AddCookie(options =>
-	{
-		options.ExpireTimeSpan = TimeSpan.FromDays(3);
-		options.SlidingExpiration = true;
-	});
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+	opt.Password.RequireDigit = false;
+	opt.Password.RequiredLength = 8;
+	opt.User.RequireUniqueEmail = true;
+	opt.SignIn.RequireConfirmedAccount = false;
+	opt.SignIn.RequireConfirmedEmail = false;
+	opt.SignIn.RequireConfirmedPhoneNumber = false;
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -49,7 +61,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthorization();
 
 app.MapControllers();
