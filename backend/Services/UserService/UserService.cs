@@ -94,4 +94,34 @@ public class UserService : IUserService
             Message = "Login failed"
         };
     }
+
+    public async Task Logout()
+    {
+        await _signInManager.SignOutAsync();
+    }
+
+    public async Task<ErrorResponse> SignUp(SignUpDTO signUpDto)
+    {
+        var existsUser = await _userManager.FindByEmailAsync(signUpDto.Email);
+
+        if (existsUser != null)
+            return new ErrorResponse()
+            {
+                StatusCode = 400,
+                Message = "An account with this email already exists"
+            };
+
+        var user = _mapper.Map<User>(signUpDto);
+        var result = await _userManager.CreateAsync(user);
+        if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, "User");
+            return new ErrorResponse()
+            {
+                StatusCode = 200,
+                Message = "Register was successful"
+            };
+        }
+        throw new Exception(result.Errors.First().Description);
+    }
 }

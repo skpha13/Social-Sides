@@ -122,5 +122,50 @@ namespace backend.Controllers
                 });
             }
         }
+
+        [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                await _userService.Logout();
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Logout was successful"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 500,
+                    Message = exception.Message
+                });
+            }
+        }
+
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
+        [HttpPost("register")]
+        public async Task<IActionResult> SignUp([FromBody] SignUpDTO signUpDto)
+        {
+            try
+            {
+                return Ok(await _userService.SignUp(signUpDto));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 500,
+                    Message = exception.Message
+                });
+            }
+        }
     }
 }

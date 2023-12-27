@@ -39,6 +39,16 @@ public class MapperProfile : AutoMapper.Profile
             .ForMember(u => u.PasswordHash, opt => 
                 opt.MapFrom(src => hasher.HashPassword(null, src.Password)));
         
+        CreateMap<SignUpDTO, User>()
+            .ForMember(u => u.Id, opt => 
+                opt.MapFrom(src => new Guid()))
+            .ForMember(u => u.PasswordHash, opt => 
+                opt.MapFrom(src => hasher.HashPassword(null, src.Password)))
+            .ForMember(u => u.LockoutEnabled, opt =>
+                opt.MapFrom(src => false))
+            .ForMember(u => u.SecurityStamp, opt =>
+                opt.Ignore());
+        
         CreateMap<Post, PostIncludesDTO>()
             .ForMember(p => p.Relations,
                 opt => opt.MapFrom(src => new PostRelationsDTO()

@@ -26,7 +26,7 @@ public class UserRepository : IUserRepository
             return;
         }
 
-        throw new Exception(result.Errors.First().Description.ToString());
+        throw new Exception(result.Errors.First().Description);
     }
 
     public async Task Update(User user)
