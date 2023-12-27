@@ -147,5 +147,25 @@ namespace backend.Controllers
                 });
             }
         }
+
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
+        [HttpPost("register")]
+        public async Task<IActionResult> SignUp([FromBody] SignUpDTO signUpDto)
+        {
+            try
+            {
+                return Ok(await _userService.SignUp(signUpDto));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 500,
+                    Message = exception.Message
+                });
+            }
+        }
     }
 }
