@@ -11,4 +11,5 @@ public interface IUserService
     Task<UserDTO> Update(UserUpdateDTO user);
     Task Delete(Guid userId);
     Task<ErrorResponse> Login(LoginDTO loginModel);
+    Task Logout();
 }

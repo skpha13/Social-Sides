@@ -94,4 +94,9 @@ public class UserService : IUserService
             Message = "Login failed"
         };
     }
+
+    public async Task Logout()
+    {
+        await _signInManager.SignOutAsync();
+    }
 }
