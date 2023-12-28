@@ -1,7 +1,9 @@
 ﻿using backend.Helpers.Seeders;
 using backend.Models;
+using backend.Repositories.CategoryRepository;
 using backend.Repositories.PostRepository;
 using backend.Repositories.UserRepository;
+using backend.Services.CategoryService;
 using backend.Services.PostService;
 using backend.Services.UserService;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +16,7 @@ public static class ServiceExtensions
     {
         services.AddTransient<IPostRepository, PostRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<ICategoryRepository, CategoryRepository>();
         services.AddScoped<UserManager<User>>();
         services.AddScoped<RoleManager<IdentityRole<Guid>>>();
 
@@ -24,6 +27,7 @@ public static class ServiceExtensions
     {
         services.AddTransient<IPostService, PostService>();
         services.AddTransient<IUserService, UserService>();
+        services.AddTransient<ICategoryService, CategoryService>();
 
         return services;
     }

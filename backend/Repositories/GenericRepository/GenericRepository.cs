@@ -24,6 +24,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public async Task CreateAsync(TEntity entity)
     {
         await _table.AddAsync(entity);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task CreateRangeAsync(IEnumerable<TEntity> entities)
@@ -33,7 +34,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public void Update(TEntity entity)
     {
+        entity.LastModified = DateTime.Now;
         _table.Update(entity);
+        _dbContext.SaveChanges();
     }
 
     public void UpdateRange(IEnumerable<TEntity> entities)
@@ -51,6 +54,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         var entity = _table.Find(id);
         if (entity == null) return false;
         _table.Remove(entity);
+        _dbContext.SaveChanges();
         return true;
     }
 

@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\CategoryRepository\" />
     <Folder Include="Repositories\CommentRepository\" />
     <Folder Include="Repositories\NotificationRepository\" />
     <Folder Include="Repositories\NotificationTypeRepository\" />

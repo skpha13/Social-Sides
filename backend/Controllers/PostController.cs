@@ -1,6 +1,9 @@
+using backend.Models.DTOs;
 using backend.Models.Responses;
 using backend.Services.PostService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -18,13 +21,17 @@ namespace backend.Controllers
         }
 
         [HttpGet("posts")]
+        [ProducesResponseType(typeof(List<PostDTO>), 200)]
         public async Task<IActionResult> GetAllPosts()
         {
             var posts = await _postService.GetAllPosts();
             return Ok(posts);
         }
 
+        [Authorize]
         [HttpGet("posts/{postId}")]
+        [ProducesResponseType(typeof(PostIncludesDTO), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
         public IActionResult GetPostWithIncludes(Guid postId, [FromQuery] string? include)
         {
             var posts = _postService.GetPostsWithIncludes(include);
@@ -40,8 +47,11 @@ namespace backend.Controllers
                 Message = "Nu au fost gasite postari"
             });
         }
-
+        
+        [Authorize]
         [HttpDelete("posts/{postId}")]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 500)]
         public IActionResult DeletePost(Guid postId)
         {
             var deleted = _postService.DeletePostById(postId);
@@ -59,6 +69,44 @@ namespace backend.Controllers
                 StatusCode = 200,
                 Message = "Post was deleted"
             });
+        }
+
+        [Authorize]
+        [HttpPost("create")]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostDTO createPostDto)
+        {
+            await _postService.CreatePost(createPostDto);
+            return Ok(new ErrorResponse()
+            {
+                StatusCode = 200,
+                Message = "Post created successfully"
+            });
+        }
+        
+        [Authorize]
+        [HttpPatch("update")]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
+        public async Task<IActionResult> UpdatePost([FromBody] UpdatePostDTO updatePostDto)
+        {
+            try
+            {
+                await _postService.UpdatePost(updatePostDto);
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Post updated successfully"
+                });
+            }
+            catch (Exception exception)
+            {
+                return NotFound(new ErrorResponse()
+                {
+                    StatusCode = 404,
+                    Message = exception.Message
+                });
+            }
         }
     }
 }

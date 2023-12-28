@@ -94,7 +94,6 @@ namespace backend.Controllers
             }
             catch (Exception exception)
             {
-                // TODO: see how to throw the result of identity to make better statuscodes
                 return BadRequest(new ErrorResponse()
                 {
                     StatusCode = 500,
@@ -167,5 +166,9 @@ namespace backend.Controllers
                 });
             }
         }
+        
+        // TODO: SMTP sengrid, to make 2FA
+        // TODO: get all posts from user
+        // TODO: join with UserFollowsCategory and Category
     }
 }

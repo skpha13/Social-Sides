@@ -1,7 +1,4 @@
-﻿using backend.Models;
-using backend.Models.DTOs;
-using backend.Models.Responses;
-using Microsoft.AspNetCore.Mvc;
+﻿using backend.Models.DTOs;
 
 namespace backend.Services.PostService;
 
@@ -10,4 +7,6 @@ public interface IPostService
     Task<List<PostDTO>> GetAllPosts();
     bool DeletePostById(Guid id);
     List<PostIncludesDTO> GetPostsWithIncludes(string? include);
+    Task CreatePost(CreatePostDTO createPostDto);
+    Task UpdatePost(UpdatePostDTO updatePostDto);
 }
