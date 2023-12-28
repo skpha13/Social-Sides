@@ -15,16 +15,16 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 ## Tasks
   ### Backend (4 pt)
 > Required
-- [ ] 3 Controllers (minimum) with CRUD
-- [ ] At least one relation of each type (1:1, 1:M, M:M), LINQ, JOIN, INLCUDE
-- [ ] Authetication + Roles (Admin, User, etc)
-- [ ] Repository & Service pattern
+- [x] 3 Controllers (minimum) with CRUD
+- [x] At least one relation of each type (1:1, 1:M, M:M), LINQ, JOIN, INLCUDE
+- [x] Authetication + Roles (Admin, User, etc)
+- [x] Repository & Service pattern
 
 > Extra
 - [ ] Unit of work
 - [ ] Specification Pattern
 - [ ] Chat with SignalR
-- [ ] Identity Authentication
+- [x] Identity Authentication
 - [ ] SMTP with Sengrid, SendinBlue, etc
 - [ ] Upload of files on S3 (AWS) / storage account (AZURE)
 - [ ] Auth with refresh token
