@@ -17,7 +17,7 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 > Required
 - [x] 3 Controllers (minimum) with CRUD
 - [x] At least one relation of each type (1:1, 1:M, M:M), LINQ, JOIN, INLCUDE
-- [x] Authetication + Roles (Admin, User, etc)
+- [x] Authentication + Roles (Admin, User, etc.)
 - [x] Repository & Service pattern
 
 > Extra
@@ -28,9 +28,9 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 - [ ] SMTP with Sengrid, SendinBlue, etc
 - [ ] Upload of files on S3 (AWS) / storage account (AZURE)
 - [ ] Auth with refresh token
-- [ ] Microservice arhitecture with mediator pattern
+- [ ] Microservice architecture with mediator pattern
 - [ ] Firebase notifications
-- [ ] Queus for messages
+- [ ] Queues for messages
 
   ### Frontend (2 pt)
 > Required
