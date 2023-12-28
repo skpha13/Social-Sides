@@ -69,8 +69,20 @@ public class MapperProfile : AutoMapper.Profile
             // .ForMember(p => p.Category, opt => opt.Ignore());
             // .ForMember(p => p.Category, opt => opt.MapFrom(src => src.Category))
             // .ForMember(p => p.User, opt => opt.MapFrom(src => src.User));
-
+            
         CreateMap<Comment, CommentDTO>();
         CreateMap<CommentDTO, Comment>();
+
+        CreateMap<CreateCategoryDTO, Category>()
+            .ForMember(c => c.Id, opt =>
+                opt.MapFrom(src => Guid.NewGuid()))
+            .ForMember(c => c.LastModified, opt =>
+                opt.MapFrom(src => DateTime.Now))
+            .ForMember(c => c.DateCreated, opt =>
+                opt.MapFrom(src => DateTime.Now));
+
+        CreateMap<UpdateCategoryDTO, Category>()
+            .ForMember(c => c.LastModified, opt =>
+                opt.MapFrom(src => DateTime.Now));
     }
 }

@@ -94,7 +94,6 @@ namespace backend.Controllers
             }
             catch (Exception exception)
             {
-                // TODO: see how to throw the result of identity to make better statuscodes
                 return BadRequest(new ErrorResponse()
                 {
                     StatusCode = 500,
