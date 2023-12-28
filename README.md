@@ -32,7 +32,7 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 - [ ] Firebase notifications
 - [ ] Queues for messages
 
-  ### Frontend (2 pt)
+### Frontend (2 pt)
 > Required
 - [ ] At least 3 services connected to the API
 - [ ] 1 directive (minimum)
