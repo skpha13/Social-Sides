@@ -11,3 +11,33 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 ![Database Diagram](./DatabaseDiagram.png)
 
 > The image above illustrates the database structure used in this project.
+
+## Tasks
+  ### Backend (4 pt)
+> Required
+- [ ] 3 Controllers (minimum) with CRUD
+- [ ] At least one relation of each type (1:1, 1:M, M:M), LINQ, JOIN, INLCUDE
+- [ ] Authetication + Roles (Admin, User, etc)
+- [ ] Repository & Service pattern
+
+> Extra
+- [ ] Unit of work
+- [ ] Specification Pattern
+- [ ] Chat with SignalR
+- [ ] Identity Authentication
+- [ ] SMTP with Sengrid, SendinBlue, etc
+- [ ] Upload of files on S3 (AWS) / storage account (AZURE)
+- [ ] Auth with refresh token
+- [ ] Microservice arhitecture with mediator pattern
+- [ ] Firebase notifications
+- [ ] Queus for messages
+
+  ### Frontend (2 pt)
+> Required
+- [ ] At least 3 services connected to the API
+- [ ] 1 directive (minimum)
+- [ ] 1 pipe (minimum)
+- [ ] Register + Login (reactive forms) + Guard implementation
+
+> Extra
+- [ ] 3 rxjs methods that were not used during courses. [RXJS](https://rxjs.dev/api)
