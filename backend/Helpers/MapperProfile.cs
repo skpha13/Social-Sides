@@ -55,20 +55,18 @@ public class MapperProfile : AutoMapper.Profile
                 {
                     Category = (src.Category != null) ? new CategoryDTO()
                     {
+                        Id = src.Category.Id,
                         Title = src.Category.Title
                     } : null,
                     User = (src.User != null) ? new UserDTO()
                     {
+                        Id = src.User.Id,
                         UserName = src.User.UserName,
                         Email = src.User.Email
                     } : null,
                     // Comments = src.Comments,
                     // Saves = src.Saves
                 }));
-            // .ForMember(p => p.User, opt => opt.Ignore())
-            // .ForMember(p => p.Category, opt => opt.Ignore());
-            // .ForMember(p => p.Category, opt => opt.MapFrom(src => src.Category))
-            // .ForMember(p => p.User, opt => opt.MapFrom(src => src.User));
             
         CreateMap<Comment, CommentDTO>();
         CreateMap<CommentDTO, Comment>();
@@ -81,8 +79,14 @@ public class MapperProfile : AutoMapper.Profile
             .ForMember(c => c.DateCreated, opt =>
                 opt.MapFrom(src => DateTime.Now));
 
-        CreateMap<UpdateCategoryDTO, Category>()
+        CreateMap<UpdateCategoryDTO, Category>();
+
+        CreateMap<CreatePostDTO, Post>()
             .ForMember(c => c.LastModified, opt =>
-                opt.MapFrom(src => DateTime.Now));
+                    opt.MapFrom(src => DateTime.Now))
+            .ForMember(c => c.DateCreated, opt =>
+                    opt.MapFrom(src => DateTime.Now));
+
+        CreateMap<UpdatePostDTO, Post>();
     }
 }

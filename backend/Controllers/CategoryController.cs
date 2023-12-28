@@ -85,5 +85,7 @@ namespace backend.Controllers
                 Message = "Category failed to be deleted"
             });
         }
+        
+        // TODO: get category with post includes/join
     }
 }

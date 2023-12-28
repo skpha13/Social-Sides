@@ -33,6 +33,10 @@ public class CategoryService : ICategoryService
 
     public void UpdateCategory(UpdateCategoryDTO updateCategoryDto)
     {
+        // TODO: change how update works
+        // if ca category has posts and users then when updating they will become null
+        // because .NET update changes every field no matter what
+        // IDEA: iterate trough fields and see which one proposes changes
         var category = _mapper.Map<Category>(updateCategoryDto);
         category.DateCreated = _categoryRepository.GetDateFromId(updateCategoryDto.Id);
         _categoryRepository.Update(_mapper.Map<Category>(category));

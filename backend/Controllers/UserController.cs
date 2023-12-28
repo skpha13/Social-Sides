@@ -166,5 +166,9 @@ namespace backend.Controllers
                 });
             }
         }
+        
+        // TODO: SMTP sengrid, to make 2FA
+        // TODO: get all posts from user
+        // TODO: join with UserFollowsCategory and Category
     }
 }
