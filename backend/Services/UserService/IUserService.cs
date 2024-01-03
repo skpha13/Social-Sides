@@ -13,4 +13,5 @@ public interface IUserService
     Task<ErrorResponse> Login(LoginDTO loginModel);
     Task Logout();
     Task<ErrorResponse> SignUp(SignUpDTO signUpDto);
+    Task<ErrorResponse> ConfirmEmail(string email, string token);
 }

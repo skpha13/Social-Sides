@@ -28,7 +28,8 @@ builder.Services.AddDbContext<DatabaseContext>(
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>()
 	.AddRoles<IdentityRole<Guid>>()
-	.AddEntityFrameworkStores<DatabaseContext>();
+	.AddEntityFrameworkStores<DatabaseContext>()
+	.AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(opt =>
 {
@@ -38,6 +39,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
 	opt.SignIn.RequireConfirmedAccount = false;
 	opt.SignIn.RequireConfirmedEmail = false;
 	opt.SignIn.RequireConfirmedPhoneNumber = false;
+	opt.SignIn.RequireConfirmedEmail = true;
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

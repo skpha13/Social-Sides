@@ -25,7 +25,7 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 - [ ] Specification Pattern
 - [ ] Chat with SignalR
 - [x] Identity Authentication
-- [ ] SMTP with Sengrid, SendinBlue, etc
+- [x] SMTP with Sengrid, SendinBlue, etc
 - [ ] Upload of files on S3 (AWS) / storage account (AZURE)
 - [ ] Auth with refresh token
 - [ ] Microservice architecture with mediator pattern
