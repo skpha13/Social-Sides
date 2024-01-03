@@ -4,6 +4,10 @@ using backend.Models.DTOs;
 using backend.Models.Responses;
 using backend.Repositories.UserRepository;
 using Microsoft.AspNetCore.Identity;
+using sib_api_v3_sdk.Api;
+using sib_api_v3_sdk.Client;
+using sib_api_v3_sdk.Model;
+using Task = System.Threading.Tasks.Task;
 
 namespace backend.Services.UserService;
 
@@ -13,16 +17,19 @@ public class UserService : IUserService
     private readonly IMapper _mapper;
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IConfiguration _configuration;
 
     public UserService(IUserRepository userRepository, 
                         IMapper mapper, 
                         UserManager<User> userManager,
-                        SignInManager<User> signInManager)
+                        SignInManager<User> signInManager,
+                        IConfiguration configuration)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _userManager = userManager;
         _signInManager = signInManager;
+        _configuration = configuration;
     }
 
     public async Task<UserDTO> GetUserById(Guid id)
@@ -116,6 +123,30 @@ public class UserService : IUserService
         if (result.Succeeded)
         {
             await _userManager.AddToRoleAsync(user, "User");
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var apiKey = _configuration["SMTPApiKey"];
+            
+            Configuration.Default.ApiKey.Add("api-key", apiKey);
+            var apiInstance = new TransactionalEmailsApi();
+            string senderName = "Social-Sides";
+            string senderEmail = "admin@social-sides.com";
+            SendSmtpEmailSender emailSender = new SendSmtpEmailSender(senderName, senderEmail);
+
+            SendSmtpEmailTo smtpEmailTo = new SendSmtpEmailTo(user.Email, user.UserName);
+            List<SendSmtpEmailTo> To = new List<SendSmtpEmailTo>();
+            To.Add(smtpEmailTo);
+
+            string HtmlContent =
+                "<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Email Confirmation</title>\n  <style>\n    body {\n      font-family: Arial, sans-serif;\n      margin: 0;\n      padding: 0;\n      background-color: #f4f4f4;\n    }\n    .container {\n      max-width: 600px;\n      margin: 20px auto;\n      padding: 20px;\n      background-color: #fff;\n      border-radius: 8px;\n      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);\n    }\n    h1 {\n      color: #333;\n    }\n    p {\n      color: #555;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <h1>Email Confirmation</h1>\n    <p>Dear {{sendName}},</p>\n    <p>Thank you for registering. Please use the following code to validate your email:</p>\n    <p style=\"font-size: 18px; background-color: #f7f7f7; padding: 10px; border-radius: 5px;\"><strong>{{token}}</strong></p>\n    <p>Copy and paste the code manually.</p>\n  </div>\n</body>\n</html>\n";
+            HtmlContent = HtmlContent.Replace("{{sendName}}", senderName).Replace("{{token}}",token);
+            
+            string TextContent = $"Your code for email validations is: {token}";
+            string Subject = "Email confirmation";
+   
+            var sendSmtpEmail = new SendSmtpEmail(emailSender, To, null, null, HtmlContent, TextContent, Subject);
+            CreateSmtpEmail sent = apiInstance.SendTransacEmail(sendSmtpEmail);
+  
             return new ErrorResponse()
             {
                 StatusCode = 200,
@@ -123,5 +154,35 @@ public class UserService : IUserService
             };
         }
         throw new Exception(result.Errors.First().Description);
+    }
+
+    public async Task<ErrorResponse> ConfirmEmail(string email, string token)
+    {
+        var user = await _userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            return new ErrorResponse()
+            {
+                StatusCode = 400,
+                Message = "There is no user with this email"
+            };
+        }
+
+        var result = await _userManager.ConfirmEmailAsync(user, token);
+        if (result.Succeeded)
+        {
+            return new ErrorResponse()
+            {
+                StatusCode = 200,
+                Message = "Confirmation successfull"
+            };
+        }
+        
+        return new ErrorResponse()
+        {
+            StatusCode = 500,
+            Message = "Confirmation failed"
+        };
     }
 }

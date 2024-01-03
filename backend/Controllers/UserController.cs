@@ -166,6 +166,18 @@ namespace backend.Controllers
                 });
             }
         }
+
+        [Authorize]
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            var response = await _userService.ConfirmEmail(email, token);
+
+            if (response.StatusCode == 200)
+                return Ok(response);
+            
+            return BadRequest(response);
+        }
         
         // TODO: SMTP sengrid, to make 2FA
         // TODO: get all posts from user
