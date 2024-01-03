@@ -507,3 +507,5 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+backend/social-sides-firebase-adminsdk-14ccb-ed6ffabc92.json

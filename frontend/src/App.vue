@@ -2,6 +2,38 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import axios from "axios"
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { initializeApp } from "firebase/app";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAltoopxGHEOdVn6SF_XclpA12fuW62z6s",
+  authDomain: "social-sides.firebaseapp.com",
+  projectId: "social-sides",
+  storageBucket: "social-sides.appspot.com",
+  messagingSenderId: "1097571377356",
+  appId: "1:1097571377356:web:20bd0458b8531926d9e269",
+  measurementId: "G-6WVLHMM4PQ"
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging();
+
+onMessage(messaging, (payload) => {
+  // TODO: display this message on top of window
+  console.log('Message received. ', payload.notification);
+});
+
+
+getToken(messaging, { vapidKey: 'BD5l-2RLtmqmRE8jyYypgZHPl1LlfxFhPzaQWL5GadRaY80y_lkcKTRP9XhN8rrpEJZpLHl5exZm5A23qF2zrgs' }).then((currentToken) => {
+  if (currentToken) {
+    // TODO: send it to backend
+    console.log(currentToken);
+  } else {
+    console.log('No registration token available. Request permission to generate one.');
+  }
+}).catch((err) => {
+  console.log('An error occurred while retrieving token. ', err);
+});
 
 const toggleTheme = () => {
   if (localStorage.getItem('theme')) {
@@ -43,7 +75,7 @@ const login = async () => {
       "password": "parolaskpha"
     }
     const response = await axios.post("https://localhost:7116/api/User/login", payload, {withCredentials: true});
-    console.log(response);
+    console.log(response.data);
 
 
    /* let payload2 =
@@ -61,7 +93,7 @@ const login = async () => {
   }
 }
 
-login();
+// login();
 
 </script>
 
