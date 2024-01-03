@@ -2,7 +2,8 @@ using backend.Data;
 using backend.Helpers.Extensions;
 using backend.Helpers.Seeders;
 using backend.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,11 @@ builder.Services.Configure<IdentityOptions>(opt =>
 	opt.SignIn.RequireConfirmedEmail = false;
 	opt.SignIn.RequireConfirmedPhoneNumber = false;
 	opt.SignIn.RequireConfirmedEmail = true;
+});
+
+FirebaseApp.Create(new AppOptions()
+{
+	Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "social-sides-firebase-adminsdk-14ccb-ed6ffabc92.json"))
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
