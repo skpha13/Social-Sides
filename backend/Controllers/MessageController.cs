@@ -2,7 +2,7 @@ using backend.Models.DTOs;
 using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend
+namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

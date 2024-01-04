@@ -2,6 +2,7 @@
 using backend.Models;
 using backend.Repositories.PostRepository;
 using Microsoft.EntityFrameworkCore;
+using FirebaseAdmin.Messaging;
 
 namespace backend.Services.PostActionService;
 
@@ -27,10 +28,25 @@ public class PostActionService : IPostActionService
             PostId = postId
         });
 
-        string username = _postRepository.GetAllPostsWithIncludes("user").Find(p => p.Id == postId).User.UserName;
-        // TODO: send firebase notification to this user
-        // TODO: store DeviceToken on User table
-        // TODO: endpoint to store it
+        Post post = _postRepository.GetAllPostsWithIncludes("user").Find(p => p.Id == postId);
+
+        if (post == null)
+        {
+            throw new Exception("Invalid request");
+        }
+
+        var messageToSend = new Message()
+        {
+            Notification = new Notification()
+            {
+                Title = "Social-Sides",
+                Body = $"{post.User.UserName} liked your post!"
+            },
+            Token = post.User.DeviceToken
+        };
+
+        var messaging = FirebaseMessaging.DefaultInstance;
+        await messaging.SendAsync(messageToSend);
         
         await _dbContext.SaveChangesAsync();
     }

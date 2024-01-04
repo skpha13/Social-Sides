@@ -28,6 +28,8 @@ namespace backend.Controllers
         
         [HttpPost("like/{postId}")]
         [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [ProducesResponseType(typeof(ErrorResponse), 404)]
         public async Task<IActionResult> LikePost(Guid postId)
         {
             var userId = _userManager.GetUserId(User);
@@ -39,8 +41,19 @@ namespace backend.Controllers
                     Message = "User not logged in"
                 });
             }
-            
-            await _postActionService.LikePost(userId, postId);
+
+            try
+            {
+                await _postActionService.LikePost(userId, postId);
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
 
             return Ok(new ErrorResponse()
             {
