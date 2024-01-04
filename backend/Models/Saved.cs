@@ -1,8 +1,6 @@
-﻿using backend.Models.Base;
+﻿namespace backend.Models;
 
-namespace backend.Models;
-
-public class Saved : BaseEntity
+public class Saved
 {
     public User User { get; set; }
     public Guid UserId { get; set; }

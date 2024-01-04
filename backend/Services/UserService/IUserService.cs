@@ -14,4 +14,5 @@ public interface IUserService
     Task Logout();
     Task<ErrorResponse> SignUp(SignUpDTO signUpDto);
     Task<ErrorResponse> ConfirmEmail(string email, string token);
+    Task StoreDeviceToken(string userId, string deviceToken);
 }

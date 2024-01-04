@@ -185,4 +185,17 @@ public class UserService : IUserService
             Message = "Confirmation failed"
         };
     }
+
+    public async Task StoreDeviceToken(string userId, string deviceToken)
+    {
+        var existingUser = await _userRepository.GetUserById(new Guid(userId));
+        
+        if (existingUser == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        existingUser.DeviceToken = deviceToken;
+        await _userRepository.Update(existingUser);
+    }
 }

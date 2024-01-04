@@ -3,7 +3,9 @@ using backend.Models;
 using backend.Repositories.CategoryRepository;
 using backend.Repositories.PostRepository;
 using backend.Repositories.UserRepository;
+using backend.Services;
 using backend.Services.CategoryService;
+using backend.Services.PostActionService;
 using backend.Services.PostService;
 using backend.Services.UserService;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +30,7 @@ public static class ServiceExtensions
         services.AddTransient<IPostService, PostService>();
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<ICategoryService, CategoryService>();
+        services.AddTransient<IPostActionService, PostActionService>();
 
         return services;
     }

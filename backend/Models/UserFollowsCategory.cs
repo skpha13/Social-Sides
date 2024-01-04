@@ -1,8 +1,6 @@
-﻿using backend.Models.Base;
+﻿namespace backend.Models;
 
-namespace backend.Models;
-
-public class UserFollowsCategory : BaseEntity
+public class UserFollowsCategory
 {
     public Category Category { get; set; }
     public Guid CategoryId { get; set; }
