@@ -1,10 +1,10 @@
 # Social-Sides
 
-This repository contains the documentation and resources for Social-Sides.
+This repository contains the documentation and resources for the Social-Sides social media app.
 
 ## API Documentation
 
-Visit the [API Documentation Site](https://social-sides.web.app/) for detailed information about the APIs used in this project.
+Visit the [API Documentation Website](https://social-sides.web.app/) for detailed information about the API used in this project.
 
 ## Database Diagram
 
@@ -25,7 +25,7 @@ Visit the [API Documentation Site](https://social-sides.web.app/) for detailed i
 - [ ] Specification Pattern
 - [ ] Chat with SignalR
 - [x] Identity Authentication
-- [x] SMTP with Sengrid, SendinBlue, etc
+- [x] SMTP with Sengrid, SendinBlue, etc.
 - [ ] Upload of files on S3 (AWS) / storage account (AZURE)
 - [ ] Auth with refresh token
 - [ ] Microservice architecture with mediator pattern
