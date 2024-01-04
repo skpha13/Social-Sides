@@ -13,6 +13,7 @@ namespace backend.Data
 		public DbSet<UserFollowsCategory> UserFollowsCategories { get; set; }
 		public DbSet<Comment> Comments { get; set; }
 		public DbSet<Saved> Saves { get; set; }
+		public DbSet<Liked> Likes { get; set; }
 		
 		public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
