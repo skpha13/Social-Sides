@@ -45,7 +45,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
 
 FirebaseApp.Create(new AppOptions()
 {
-	Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "social-sides-firebase-adminsdk-14ccb-ed6ffabc92.json"))
+	Credential = GoogleCredential.FromFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "social-sides-firebase-adminsdk-14ccb-375f894cd0.json"))
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

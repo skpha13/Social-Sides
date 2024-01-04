@@ -2,7 +2,7 @@
 
 namespace backend.Models;
 
-public class Saved : BaseEntity
+public class Liked : BaseEntity
 {
     public User User { get; set; }
     public Guid UserId { get; set; }

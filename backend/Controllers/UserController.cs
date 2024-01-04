@@ -179,7 +179,7 @@ namespace backend.Controllers
             return BadRequest(response);
         }
         
-        // TODO: SMTP sengrid, to make 2FA
+        // TODO: Make a new Sendinblue account
         // TODO: get all posts from user
         // TODO: join with UserFollowsCategory and Category
     }
