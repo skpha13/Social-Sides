@@ -177,10 +177,31 @@ const login = async () => {
     class="fixed bottom-0 left-0 w-full z-50 border-t border-borderLight-default dark:border-borderDark-default"
   >
     <div class="flex flex-row items-center justify-between p-2 px-10">
-      <RouterLink to="/feed">Home</RouterLink>
-      <RouterLink to="/feed">Categories</RouterLink>
-      <RouterLink to="/feed">Posts</RouterLink>
-      <RouterLink to="/feed">Profile</RouterLink>
+<!--      TODO: replace paths of RouterLinks-->
+      <RouterLink to="/feed">
+        <font-awesome-icon icon="fa-solid fa-house"
+                           class="text-textHeading dark:text-textHeading"
+                           size="xl"
+        />
+      </RouterLink>
+      <RouterLink to="/feed">
+        <font-awesome-icon icon="fa-solid fa-bars"
+                           class="text-textHeading dark:text-textHeading"
+                           size="xl"
+        />
+      </RouterLink>
+      <RouterLink to="/feed">
+        <font-awesome-icon icon="fa-solid fa-circle-plus"
+                           class="text-textHeading dark:text-textHeading"
+                           size="xl"
+        />
+      </RouterLink>
+      <RouterLink to="/feed">
+        <font-awesome-icon icon="fa-solid fa-user"
+                           class="text-textHeading dark:text-textHeading"
+                           size="xl"
+        />
+      </RouterLink>
     </div>
   </div>
 </template>
