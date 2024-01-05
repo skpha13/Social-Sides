@@ -5,29 +5,31 @@ export default {
   theme: {
     extend: {
       colors: {
-        // TODO: define colors
-        background: {
-          default: "var(--color-background)",
-          soft: "var(--color-background-soft)",
-          mute: "var(--color-background-mute)"
+        backgroundDark: {
+          default: 'var(--vt-c-black)',
+          soft: 'var(--vt-c-black-soft)',
+          mute: 'var(--vt-c-black-mute)'
         },
-        border: {
-          default: "var(--color-border)",
-          hover: "var(--color-border-hover)"
+        borderDark: {
+          default: 'var(--vt-c-divider-dark-2)',
+          hover: 'var(--vt-c-divider-dark-1)'
         },
-        heading: "var(--color-heading)",
-        text: "var(--color-text)",
-      }
-    },
-  },
-  variants: {
-    extend: {
-      // backgroundColor: ['dark'], // Add dark mode variant for background color
-      // borderColor: ['dark'], // Add dark mode variant for border color
-      // textColor: ['dark'], // Add dark mode variant for text color
-      // Add more variants as needed
-    },
-  },
-  plugins: [],
-}
+        headingDark: 'var(--vt-c-text-dark-1)',
+        textDark: 'var(--vt-c-text-dark-2)',
 
+        backgroundLight: {
+          default: 'var(--vt-c-white)',
+          soft: 'var(--vt-c-white-soft)',
+          mute: 'var(--vt-c-white-mute)'
+        },
+        borderLight: {
+          default: 'var(--vt-c-divider-light-2)',
+          hover: 'var(--vt-c-divider-light-1)'
+        },
+        headingLight: 'var(--vt-c-text-light-1)',
+        textLight: 'var(--vt-c-text-light-2)'
+      }
+    }
+  },
+  plugins: []
+}
