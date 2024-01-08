@@ -211,6 +211,20 @@ namespace backend.Controllers
                 Message = "Device token stored"
             });
         }
+
+        [HttpGet("authenticated")]
+        [ProducesResponseType(typeof(CheckLogin), 200)]
+        public IActionResult CheckLogin()
+        {
+            bool isLoggedIn = User.Identity.IsAuthenticated;
+            string userId = isLoggedIn ? _userManager.GetUserId(User) : "";
+
+            return Ok(new CheckLogin()
+            {
+                IsLoggedIn = isLoggedIn,
+                UserId = userId
+            });
+        }
         
         // TODO: Make a new Sendinblue account
         // TODO: get all posts from user
