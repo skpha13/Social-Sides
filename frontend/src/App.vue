@@ -83,7 +83,7 @@ const login = async () => {
     })
     console.log(response.data)
 
-    /* let payload2 =
+     let payload2 =
          {
            "id": "439c82bf-f8cd-4300-a467-03a1f85a6d63",
            "userName": "skpha3",
@@ -91,7 +91,7 @@ const login = async () => {
            "password": "test123test"
          }
      const response2 = await axios.patch("https://localhost:7116/api/User/update",payload2, {withCredentials: true});
-     console.log(response2);*/
+     console.log(response2);
   } catch (error) {
     console.log(error)
   }
@@ -102,7 +102,7 @@ const login = async () => {
 
 <template>
   <header>
-    <nav>
+    <nav class="mb-10">
       <div class="flex justify-between">
         <h1 class="font-bold text-3xl">Social-Sides</h1>
         <!-- DROPDOWN BUTTON FOR COLOR SCHEME -->
