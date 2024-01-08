@@ -1,7 +1,11 @@
 <script setup lang="ts">
+const handleIconClick = (node, e) => {
+  node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
+  node.props.type = node.props.type === 'password' ? 'text' : 'password'
+}
 
-const loginHandler = () => {
-  console.log('Login');
+const loginHandler = (credentials:any) => {
+  console.log('Login: ', credentials);
 }
 
 </script>
@@ -23,6 +27,10 @@ const loginHandler = () => {
                name="password"
                label="Password"
                placeholder="password"
-               validation="required|length:8" />
+               validation="required|length:8"
+               prefix-icon="password"
+               suffix-icon="eyeClosed"
+               @suffix-icon-click="handleIconClick"
+               validation-visibility="live" />
     </FormKit>
 </template>

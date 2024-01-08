@@ -174,7 +174,8 @@ const login = async () => {
   <RouterView />
 
   <div
-    class="fixed bottom-0 left-0 w-full z-50 border-t border-borderLight-default dark:border-borderDark-default"
+    class="fixed bottom-0 left-0 w-full z-50 border-t border-borderLight-default dark:border-borderDark-default
+            bg-backgroundLight-soft dark:bg-backgroundDark-soft"
   >
     <div class="flex flex-row items-center justify-between p-2 px-10">
 <!--      TODO: replace paths of RouterLinks-->
