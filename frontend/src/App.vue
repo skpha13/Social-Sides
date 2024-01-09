@@ -2,21 +2,25 @@
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import axios from './Helpers/AxiosInstance'
-import ax from 'axios'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 import { initializeApp } from 'firebase/app'
 import { ref } from 'vue'
+import { store } from './Helpers/Authenticated'
 
 // ============ ROUTE CHECKS ============
 const router = useRouter();
-const isAuthenticated = ref(false);
+const device_token = ref("");
 
 const check_authentication = async () => {
   try {
     const response = await axios.get('User/authenticated',{withCredentials: true});
-    isAuthenticated.value = response.data.isLoggedIn;
+    store.isAuthenticated = response.data.isLoggedIn;
 
-    if (isAuthenticated.value === true) {
+    if (store.isAuthenticated === true) {
+      if (device_token.value !== "") {
+        axios.patch(`User/device-token/${device_token}`);
+      }
+
       router.push({name: 'home'});
       return;
     }
@@ -30,9 +34,14 @@ const check_authentication = async () => {
 
 check_authentication();
 
-router.beforeEach(async (to, from) => {
-  if (isAuthenticated.value && to.name !== 'Login') {
-    return {name: 'Login'}
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth && !store.isAuthenticated) {
+    next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    });
+  } else {
+    next();
   }
 });
 // ======================================
@@ -62,7 +71,7 @@ getToken(messaging, {
 })
   .then((currentToken) => {
     if (currentToken) {
-      axios.patch(`User/device-token/${currentToken}`);
+      device_token.value = currentToken;
     } else {
       console.log('No registration token available. Request permission to generate one.')
     }
@@ -214,7 +223,7 @@ const login = async () => {
   >
     <div class="flex flex-row items-center justify-between p-2 px-10">
 <!--      TODO: replace paths of RouterLinks-->
-      <RouterLink to="/feed">
+      <RouterLink to="/home">
         <font-awesome-icon icon="fa-solid fa-house"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"
@@ -232,7 +241,7 @@ const login = async () => {
                            size="xl"
         />
       </RouterLink>
-      <RouterLink to="/feed">
+      <RouterLink to="/profile">
         <font-awesome-icon icon="fa-solid fa-user"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"

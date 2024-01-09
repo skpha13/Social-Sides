@@ -4,7 +4,8 @@
               "src/**/*.ts",
               "formkit.config.ts",
               "formkit.theme.ts",
-              "src/Helpers/AxiosIntance.ts"],
+              "src/Helpers/AxiosIntance.ts",
+              "src/Helpers/Authenticated.ts"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
