@@ -43,6 +43,7 @@ public static class ServiceExtensions
         services.AddTransient<RoleSeeder>();
         services.AddTransient<UserSeeder>();
         services.AddTransient<UserRoleSeeder>();
+        services.AddTransient<UserFollowsCategorySeeder>();
         
         return services;
     }

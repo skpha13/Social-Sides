@@ -8,7 +8,7 @@ const areCategoriesLoaded = ref(false);
 
 const categoryWorker = new Category()
 const fetchCategories = async () => {
-  categories.value = await categoryWorker.all()
+  categories.value = await categoryWorker.all('?include=user');
   areCategoriesLoaded.value = true;
 }
 

@@ -1,6 +1,8 @@
+using backend.Models;
 using backend.Models.DTOs;
 using backend.Models.Responses;
 using backend.Services.CategoryService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +15,21 @@ namespace backend.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly UserManager<User> _userManager;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, UserManager<User> userManager)
         {
             _categoryService = categoryService;
+            _userManager = userManager;
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("all")]
         [ProducesResponseType(typeof(List<CategoryDTO>), 200)]
-        public async Task<IActionResult> GetCategories()
+        public IActionResult GetCategories([FromQuery] string? include)
         {
-            return Ok(await _categoryService.GetAllCategories());
+            var userId = _userManager.GetUserId(User);
+            return Ok(_categoryService.GetAllCategories(userId, include));
         }
 
         [Authorize(Roles = "Admin")]

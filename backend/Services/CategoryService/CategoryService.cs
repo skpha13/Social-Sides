@@ -16,9 +16,14 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
     
-    public async Task<List<CategoryDTO>> GetAllCategories()
+    public List<CategoryDTO> GetAllCategories(string userId, string? include)
     {
-        return _mapper.Map<List<CategoryDTO>>(await _categoryRepository.GetAllAsync());
+        var categories = _categoryRepository.GetAllCategoriesWithIncludes(include);
+        if (!string.IsNullOrEmpty(include))
+        {
+            categories = categories.Where(c => c.Users != null && c.Users.Any(u => u.UserId == new Guid(userId))).ToList();
+        }
+        return _mapper.Map<List<CategoryDTO>>(categories);
     }
 
     public async Task CreateCategory(CreateCategoryDTO categoryDto)

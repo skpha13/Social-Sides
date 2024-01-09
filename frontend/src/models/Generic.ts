@@ -4,8 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 export abstract class Generic {
   protected routeName: string = '';
 
-  public all = async () => {
-    return await axios.get(`${this.routeName}/all`)
+  public all = async (params: string = '') => {
+    return await axios.get(`${this.routeName}/all${params}`)
       .then((response) => response.data)
       .catch((error) => {
         if (error.response.status == 404) {
