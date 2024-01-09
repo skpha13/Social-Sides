@@ -4,7 +4,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import axios from './Helpers/AxiosInstance'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 import { initializeApp } from 'firebase/app'
-import { ref } from 'vue'
+import { customRef, ref } from 'vue'
 import { store } from './Helpers/Authenticated'
 
 // ============ ROUTE CHECKS ============
@@ -16,14 +16,8 @@ const check_authentication = async () => {
     const response = await axios.get('User/authenticated',{withCredentials: true});
     store.isAuthenticated = response.data.isLoggedIn;
 
-    if (store.isAuthenticated === true) {
-      if (device_token.value !== "") {
-        axios.patch(`User/device-token/${device_token}`);
-      }
-
-      router.push({name: 'home'});
-      return;
-    }
+    router.push({name: 'home'});
+    return;
 
     router.push({name: 'login'});
   } catch (data) {
@@ -71,7 +65,10 @@ getToken(messaging, {
 })
   .then((currentToken) => {
     if (currentToken) {
-      device_token.value = currentToken;
+      if (store.isAuthenticated === true) {
+          axios.patch(`User/device-token/${currentToken}`);
+          localStorage.setItem('device_token',currentToken);
+      }
     } else {
       console.log('No registration token available. Request permission to generate one.')
     }

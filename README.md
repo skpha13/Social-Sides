@@ -37,7 +37,7 @@ Visit the [API Documentation Website](https://social-sides.web.app/) for detaile
 - [ ] At least 3 services connected to the API
 - [ ] 1 directive (minimum)
 - [ ] 1 pipe (minimum)
-- [ ] Register + Login (reactive forms) + Guard implementation
+- [X] Register + Login (reactive forms) + Guard implementation
 
 > Extra
 - [ ] 3 rxjs methods that were not used during courses. [RXJS](https://rxjs.dev/api)

@@ -14,6 +14,7 @@ const handleIconClick = (node: any) => {
 const loginHandler = async (credentials: any) => {
   try {
     let response = await axios.post('User/login', credentials)
+    axios.patch(`User/device-token/${localStorage.getItem('device_token')}`);
     store.isAuthenticated = true
 
     // TODO: notification here
@@ -22,7 +23,7 @@ const loginHandler = async (credentials: any) => {
 
     router.push({ path: redirectPath});
   } catch (data) {
-    console.log(data.data)
+    console.log(data.data);
   }
 }
 </script>
