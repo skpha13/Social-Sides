@@ -3,7 +3,8 @@
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue",
               "src/**/*.ts",
               "formkit.config.ts",
-              "formkit.theme.ts"],
+              "formkit.theme.ts",
+              "src/Helpers/AxiosIntance.ts"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,

@@ -1,10 +1,43 @@
 <script lang="ts" setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import axios from 'axios'
+import axios from './Helpers/AxiosInstance'
+import ax from 'axios'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 import { initializeApp } from 'firebase/app'
+import { ref } from 'vue'
 
+// ============ ROUTE CHECKS ============
+const router = useRouter();
+const isAuthenticated = ref(false);
+
+const check_authentication = async () => {
+  try {
+    const response = await axios.get('User/authenticated',{withCredentials: true});
+    isAuthenticated.value = response.data.isLoggedIn;
+
+    if (isAuthenticated.value === true) {
+      router.push({name: 'home'});
+      return;
+    }
+
+    router.push({name: 'login'});
+  } catch (data) {
+    console.log(data);
+    console.log("Not logged in");
+  }
+}
+
+check_authentication();
+
+router.beforeEach(async (to, from) => {
+  if (isAuthenticated.value && to.name !== 'Login') {
+    return {name: 'Login'}
+  }
+});
+// ======================================
+
+// ============ FIREBASE ============
 const firebaseConfig = {
   apiKey: 'AIzaSyAltoopxGHEOdVn6SF_XclpA12fuW62z6s',
   authDomain: 'social-sides.firebaseapp.com',
@@ -29,8 +62,7 @@ getToken(messaging, {
 })
   .then((currentToken) => {
     if (currentToken) {
-      // TODO: send it to backend
-      console.log(currentToken)
+      axios.patch(`User/device-token/${currentToken}`);
     } else {
       console.log('No registration token available. Request permission to generate one.')
     }
@@ -38,7 +70,9 @@ getToken(messaging, {
   .catch((err) => {
     console.log('An error occurred while retrieving token. ', err)
   })
+// ======================================
 
+// ============ THEME CHANGE ============
 const toggleTheme = () => {
   if (localStorage.getItem('theme')) {
     if (localStorage.getItem('theme') === 'light') {
@@ -70,8 +104,9 @@ const changeThemeOS = () => {
   localStorage.removeItem('theme')
   toggleTheme()
 }
+// ======================================
 
-// TODO: create axios instance class to remove {withCredentials: true}
+
 const login = async () => {
   try {
     let payload = {
