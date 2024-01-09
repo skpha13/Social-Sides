@@ -1,5 +1,4 @@
-﻿using backend.Models.Base;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace backend.Models;
 

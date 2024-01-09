@@ -41,7 +41,6 @@ public static class ServiceExtensions
         services.AddTransient<UserSeeder>();
         services.AddTransient<PostSeeder>();
         services.AddTransient<RoleSeeder>();
-        services.AddTransient<UserSeeder>();
         services.AddTransient<UserRoleSeeder>();
         services.AddTransient<UserFollowsCategorySeeder>();
         
