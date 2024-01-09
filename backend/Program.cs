@@ -96,5 +96,8 @@ void SeedData(IHost app)
 		
 		var postService = scope.ServiceProvider.GetService<PostSeeder>();
 		postService.SeedInitialPosts();
+
+		var userFollowCategoryService = scope.ServiceProvider.GetService<UserFollowsCategorySeeder>();
+		userFollowCategoryService.SeedUserCategories();
 	}
 }
