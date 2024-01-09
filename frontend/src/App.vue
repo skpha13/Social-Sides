@@ -1,10 +1,46 @@
 <script lang="ts" setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import axios from 'axios'
+import axios from './Helpers/AxiosInstance'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 import { initializeApp } from 'firebase/app'
+import { customRef, ref } from 'vue'
+import { store } from './Helpers/Authenticated'
 
+// ============ ROUTE CHECKS ============
+const router = useRouter();
+const device_token = ref("");
+
+const check_authentication = async () => {
+  try {
+    const response = await axios.get('User/authenticated',{withCredentials: true});
+    store.isAuthenticated = response.data.isLoggedIn;
+
+    router.push({name: 'home'});
+    return;
+
+    router.push({name: 'login'});
+  } catch (data) {
+    console.log(data);
+    console.log("Not logged in");
+  }
+}
+
+check_authentication();
+
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.requiresAuth && !store.isAuthenticated) {
+    next({
+      name: 'login',
+      query: { redirect: to.fullPath }
+    });
+  } else {
+    next();
+  }
+});
+// ======================================
+
+// ============ FIREBASE ============
 const firebaseConfig = {
   apiKey: 'AIzaSyAltoopxGHEOdVn6SF_XclpA12fuW62z6s',
   authDomain: 'social-sides.firebaseapp.com',
@@ -29,8 +65,10 @@ getToken(messaging, {
 })
   .then((currentToken) => {
     if (currentToken) {
-      // TODO: send it to backend
-      console.log(currentToken)
+      if (store.isAuthenticated === true) {
+          axios.patch(`User/device-token/${currentToken}`);
+          localStorage.setItem('device_token',currentToken);
+      }
     } else {
       console.log('No registration token available. Request permission to generate one.')
     }
@@ -38,7 +76,9 @@ getToken(messaging, {
   .catch((err) => {
     console.log('An error occurred while retrieving token. ', err)
   })
+// ======================================
 
+// ============ THEME CHANGE ============
 const toggleTheme = () => {
   if (localStorage.getItem('theme')) {
     if (localStorage.getItem('theme') === 'light') {
@@ -70,8 +110,9 @@ const changeThemeOS = () => {
   localStorage.removeItem('theme')
   toggleTheme()
 }
+// ======================================
 
-// TODO: create axios instance class to remove {withCredentials: true}
+
 const login = async () => {
   try {
     let payload = {
@@ -179,7 +220,7 @@ const login = async () => {
   >
     <div class="flex flex-row items-center justify-between p-2 px-10">
 <!--      TODO: replace paths of RouterLinks-->
-      <RouterLink to="/feed">
+      <RouterLink to="/home">
         <font-awesome-icon icon="fa-solid fa-house"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"
@@ -197,7 +238,7 @@ const login = async () => {
                            size="xl"
         />
       </RouterLink>
-      <RouterLink to="/feed">
+      <RouterLink to="/profile">
         <font-awesome-icon icon="fa-solid fa-user"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"

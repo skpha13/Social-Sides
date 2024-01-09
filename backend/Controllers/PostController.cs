@@ -19,7 +19,7 @@ namespace backend.Controllers
             _postService = postService;
         }
 
-        [HttpGet("posts")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(List<PostDTO>), 200)]
         public async Task<IActionResult> GetAllPosts()
         {

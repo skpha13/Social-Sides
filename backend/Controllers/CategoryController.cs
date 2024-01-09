@@ -20,7 +20,7 @@ namespace backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("categories")]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(List<CategoryDTO>), 200)]
         public async Task<IActionResult> GetCategories()
         {
