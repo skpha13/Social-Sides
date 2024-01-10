@@ -2,6 +2,7 @@
 import axios from '../Helpers/AxiosInstance'
 import { store } from '@/Helpers/Authenticated'
 import router from '@/router'
+import PageTitle from '@/components/PageTitle.vue'
 const logoutHandler = async () => {
   try {
     axios.post('User/logout');
@@ -14,10 +15,7 @@ const logoutHandler = async () => {
 </script>
 
 <template>
-  <h1 class="text-textLight
-                dark:text-textDark
-                font-bold text-2xl mb-4
-    ">Profile</h1>
+  <PageTitle title="Profile" />
   <button @click="logoutHandler" class="
     bg-purple-500 dark:bg-purple-500 hover:bg-purple-400 hover:dark:bg-purple-400
     p-2 rounded-md

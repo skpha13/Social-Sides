@@ -1,5 +1,4 @@
 import axios from '../Helpers/AxiosInstance'
-import { useRoute, useRouter } from 'vue-router'
 
 export abstract class Generic {
   protected routeName: string = '';
@@ -10,7 +9,7 @@ export abstract class Generic {
       .catch((error) => {
         if (error.response.status == 404) {
           // TODO: router.push({name: 'notfound'});
-          console.log(error);
+          console.log(error.response.data.message);
         }
         console.error(error.response);
         return [];

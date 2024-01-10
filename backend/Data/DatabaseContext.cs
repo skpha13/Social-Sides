@@ -47,7 +47,7 @@ namespace backend.Data
 				.HasMany(uc => uc.Categories)
 				.WithOne(c => c.User)
 				.HasForeignKey(uc => uc.UserId)
-				.OnDelete(DeleteBehavior.NoAction);
+				.OnDelete(DeleteBehavior.Cascade);
 			
 			// User - Comment
 			modelBuilder.Entity<User>()

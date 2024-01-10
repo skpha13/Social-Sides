@@ -4,17 +4,16 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import axios from './Helpers/AxiosInstance'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 import { initializeApp } from 'firebase/app'
-import { customRef, ref } from 'vue'
 import { store } from './Helpers/Authenticated'
 
 // ============ ROUTE CHECKS ============
 const router = useRouter();
-const device_token = ref("");
 
 const check_authentication = async () => {
   try {
     const response = await axios.get('User/authenticated',{withCredentials: true});
     store.isAuthenticated = response.data.isLoggedIn;
+    store.userId = response.data.userId;
 
     router.push({name: 'home'});
     return;
@@ -219,20 +218,19 @@ const login = async () => {
             bg-backgroundLight-soft dark:bg-backgroundDark-soft"
   >
     <div class="flex flex-row items-center justify-between p-2 px-10">
-<!--      TODO: replace paths of RouterLinks-->
       <RouterLink to="/home">
         <font-awesome-icon icon="fa-solid fa-house"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"
         />
       </RouterLink>
-      <RouterLink to="/feed">
+      <RouterLink to="/categories">
         <font-awesome-icon icon="fa-solid fa-bars"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"
         />
       </RouterLink>
-      <RouterLink to="/feed">
+      <RouterLink to="/add-post">
         <font-awesome-icon icon="fa-solid fa-circle-plus"
                            class="text-textHeading dark:text-textHeading"
                            size="xl"

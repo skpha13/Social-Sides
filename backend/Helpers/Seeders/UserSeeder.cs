@@ -29,7 +29,7 @@ public class UserSeeder
                     Email = "mal13adi03@gmail.com",
                     NormalizedEmail = "mal13adi03@gmail.com".ToUpper(),
                     PasswordHash = hasher.HashPassword(null,"parolaskpha"),
-                    SecurityStamp = Guid.NewGuid().ToString()
+                    SecurityStamp = Guid.NewGuid().ToString(),
                 },
                 new User()
                 {
@@ -40,7 +40,7 @@ public class UserSeeder
                     EmailConfirmed = true,
                     NormalizedEmail = "dogaru_mihail@gmail.com".ToUpper(),
                     PasswordHash = hasher.HashPassword(null,"parolamatoka26"),
-                    SecurityStamp = Guid.NewGuid().ToString()
+                    SecurityStamp = Guid.NewGuid().ToString(),
                 },
                 new User()
                 {

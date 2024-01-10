@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using backend.Helpers;
 using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.UserDTOs;
 using backend.Models.Responses;
 using backend.Repositories.UserRepository;
 using Microsoft.AspNetCore.Identity;
@@ -69,17 +71,13 @@ public class UserService : IUserService
         await _userRepository.Delete(userId);
     }
 
-    public async Task<ErrorResponse> Login(LoginDTO loginDto)
+    public async Task<Guid> Login(LoginDTO loginDto)
     {
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
         if (user == null)
         {
-            return new ErrorResponse()
-            {
-                StatusCode = 404,
-                Message = "Email not found"
-            };
+            throw new EmailNotFoundException("Email not found");
         }
         
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, lockoutOnFailure: false);
@@ -87,19 +85,11 @@ public class UserService : IUserService
         if (result.Succeeded)
         {
             await _signInManager.SignInAsync(user, isPersistent: true);
-            
-            return new ErrorResponse()
-            {
-                StatusCode = 200,
-                Message = "Login successfull"
-            };
+
+            return user.Id;
         }
 
-        return new ErrorResponse()
-        {
-            StatusCode = 500,
-            Message = "Login failed"
-        };
+        throw new Exception("Login failed");
     }
 
     public async Task Logout()

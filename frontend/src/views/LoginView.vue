@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import axios from '../Helpers/AxiosInstance'
-import { type RouteLocationRaw, useRoute, useRouter } from 'vue-router'
-import { store } from '../Helpers/Authenticated'
+import { useRoute, useRouter } from 'vue-router'
+import { store } from '@/Helpers/Authenticated'
+import PageTitle from '@/components/PageTitle.vue'
 
 const route = useRoute();
 const router = useRouter();
@@ -15,10 +16,9 @@ const loginHandler = async (credentials: any) => {
   try {
     let response = await axios.post('User/login', credentials)
     axios.patch(`User/device-token/${localStorage.getItem('device_token')}`);
-    store.isAuthenticated = true
+    store.isAuthenticated = true;
+    store.userId = response.data.id;
 
-    // TODO: notification here
-    console.log(response.data.message)
     const redirectPath = route.query.redirect || '/home'
 
     router.push({ path: redirectPath});
@@ -29,7 +29,7 @@ const loginHandler = async (credentials: any) => {
 </script>
 
 <template>
-  <h1 class="text-textLight dark:text-textDark font-bold text-2xl mb-4">Login</h1>
+  <PageTitle title="Login" />
   <FormKit type="form" @submit="loginHandler" submit-label="Login">
     <FormKit
       type="email"
