@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PageTitle from '@/components/PageTitle.vue'
+
 const handleIconClick = (node:any) => {
   node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
   node.props.type = node.props.type === 'password' ? 'text' : 'password'
@@ -16,10 +18,7 @@ const registerHandler = (credentials:any) => {
 </script>
 
 <template>
-  <h1 class="text-textLight
-                dark:text-textDark
-                font-bold text-2xl mb-4
-    ">Sign Up</h1>
+  <PageTitle title="Sign Up" />
   <FormKit type="form" @submit="registerHandler" submit-label="Sign Up">
     <FormKit type="text"
              name="username"

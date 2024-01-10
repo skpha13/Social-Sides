@@ -91,6 +91,6 @@ namespace backend.Controllers
             });
         }
         
-        // TODO: get category with post includes/join
+        // TODO: join with userId for /categories in fronted 
     }
 }

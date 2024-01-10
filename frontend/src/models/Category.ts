@@ -5,11 +5,7 @@ export class Category extends Generic {
 }
 
 export interface ICategory {
-  categories: [
-    {
-      id: string,
-      title: string,
-      color: string
-    }
-  ]
+    id: string,
+    title: string,
+    color: string
 }

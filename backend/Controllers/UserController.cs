@@ -1,5 +1,7 @@
+using backend.Helpers;
 using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.UserDTOs;
 using backend.Models.Responses;
 using backend.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
@@ -109,13 +111,24 @@ namespace backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ResponseLoginDTO), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 500)]
         public async Task<IActionResult> Login([FromBody] LoginDTO loginBody)
         {
             try
             {
-                return Ok(await _userService.Login(loginBody));
+                return Ok(new ResponseLoginDTO()
+                {
+                    Id =  await _userService.Login(loginBody)
+                });
+            }
+            catch (EmailNotFoundException exception)
+            {
+                return NotFound(new ErrorResponse()
+                {
+                    StatusCode = 404,
+                    Message = exception.Message
+                });
             }
             catch (Exception exception)
             {

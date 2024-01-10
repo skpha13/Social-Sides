@@ -8,9 +8,9 @@ import { plugin, defaultConfig } from '@formkit/vue'
 import config from '../formkit.config'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faHouse, faBars, faCirclePlus, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faBars, faCirclePlus, faUser, faPlus } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faHouse, faBars, faCirclePlus, faUser);
+library.add(faHouse, faBars, faCirclePlus, faUser, faPlus);
 
 const app = createApp(App)
 
