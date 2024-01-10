@@ -54,8 +54,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddRepositories();
 builder.Services.AddServices();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSeeders();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 SeedData(app);
@@ -71,6 +71,7 @@ app.UseHttpsRedirection();
 
 app.UseCors(MyAllowSpecificOrigins);
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -19,15 +19,7 @@ namespace backend.Controllers
             _postService = postService;
         }
 
-        /*[HttpGet("all")]
-        [ProducesResponseType(typeof(List<PostDTO>), 200)]
-        public async Task<IActionResult> GetAllPosts()
-        {
-            var posts = await _postService.GetAllPosts();
-            return Ok(posts);
-        }*/
-
-        // [Authorize]
+        [Authorize]
         [HttpGet("all")]
         [ProducesResponseType(typeof(PostIncludesDTO), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 500)]
@@ -44,6 +36,15 @@ namespace backend.Controllers
                 StatusCode = 404,
                 Message = "Nu au fost gasite postari"
             });
+        }
+        
+        [Authorize]
+        [HttpGet("posts")]
+        [ProducesResponseType(typeof(List<PostDTO>), 200)]
+        public async Task<IActionResult> GetAllPosts()
+        {
+            var posts = await _postService.GetAllPosts();
+            return Ok(posts);
         }
         
         [Authorize]
