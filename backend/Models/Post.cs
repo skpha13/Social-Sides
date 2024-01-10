@@ -5,10 +5,6 @@ namespace backend.Models;
 
 public class Post : BaseEntity
 {
-    [Required(ErrorMessage = "A post title is required")]
-    [MaxLength(50, ErrorMessage = "Title cannot exceed 50 characters")]
-    public string Title { get; set; }
-    
     [MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters")]
     public string Text { get; set; }
     

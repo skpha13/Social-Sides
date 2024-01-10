@@ -7,11 +7,12 @@ import { store } from '@/Helpers/Authenticated'
 
 const formattedDate = ref<string>("");
 const userName = ref<string>("Unknown");
+const showCategory = ref(false);
 
 const props = defineProps<{
   text: string
   user: IUser
-  category: ICategory
+  category?: ICategory
   date: string
 }>();
 
@@ -19,6 +20,10 @@ if (props.user.id == store.userId) {
   userName.value = "You";
 } else {
   userName.value = props.user.userName;
+}
+
+if (props.category) {
+  showCategory.value = true;
 }
 
 // setInterval starts after 0.5s, so to reduce the wait time
@@ -30,13 +35,14 @@ setInterval(() => {
 </script>
 
 <template>
-  <div class="w-96 sm:w-[512px] sm:mx-8 py-2 px-4 border rounded-lg border-borderLight-default dark:border-borderDark-default">
+  <div class="w-96 sm:w-[512px] sm:mx-8 py-2 px-4 border rounded-lg border-borderLight-default dark:border-borderDark-default mb-4">
     <div class="flex flex-row justify-between mb-2">
-      <button
+      <button v-if="showCategory"
         class="text-sm border rounded-xl py-1 px-4 min-w-[80px] hover:backdrop-brightness-200"
         :style="{color: props.category.color, borderColor: props.category.color}">
         {{ props.category.title }}
       </button>
+      <h1 v-else class="text-sm border rounded-xl py-1 px-4 min-w-[80px] hover:backdrop-brightness-200">Unknown</h1>
       <p class="text-sm text-textLight dark:text-textDark">{{ formattedDate }}</p>
     </div>
 
