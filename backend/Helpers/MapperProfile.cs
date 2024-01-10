@@ -56,7 +56,8 @@ public class MapperProfile : AutoMapper.Profile
                     Category = (src.Category != null) ? new CategoryDTO()
                     {
                         Id = src.Category.Id,
-                        Title = src.Category.Title
+                        Title = src.Category.Title,
+                        Color = src.Category.Color
                     } : null,
                     User = (src.User != null) ? new UserDTO()
                     {

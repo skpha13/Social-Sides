@@ -19,25 +19,24 @@ namespace backend.Controllers
             _postService = postService;
         }
 
-        [HttpGet("all")]
+        /*[HttpGet("all")]
         [ProducesResponseType(typeof(List<PostDTO>), 200)]
         public async Task<IActionResult> GetAllPosts()
         {
             var posts = await _postService.GetAllPosts();
             return Ok(posts);
-        }
+        }*/
 
-        [Authorize]
-        [HttpGet("posts/{postId}")]
+        // [Authorize]
+        [HttpGet("all")]
         [ProducesResponseType(typeof(PostIncludesDTO), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public IActionResult GetPostWithIncludes(Guid postId, [FromQuery] string? include)
+        public IActionResult GetPostWithIncludes([FromQuery] string? include)
         {
             var posts = _postService.GetPostsWithIncludes(include);
             if (posts.Any())
             {
-                var post = posts.FirstOrDefault(post => post.Id == postId);
-                return Ok(post);
+                return Ok(posts);
             }
 
             return NotFound(new ErrorResponse()
