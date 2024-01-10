@@ -45,8 +45,7 @@ public class PostService : IPostService
         {
             throw new Exception("Post not found");
         }
-
-        if (updatePostDto.Title.Any()) existingPost.Title = updatePostDto.Title;
+        
         if (updatePostDto.Text.Any()) existingPost.Text = updatePostDto.Text;
 
         _postRepository.Update(_mapper.Map<Post>(existingPost));
