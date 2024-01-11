@@ -26,6 +26,12 @@ public class CategoryService : ICategoryService
         return _mapper.Map<List<CategoryDTO>>(categories);
     }
 
+    public List<CategoryIdDTO> GetCategoriesWithCreator(Guid userId)
+    {
+        var categories = _categoryRepository.GetCategoriesWithCreator(userId);
+        return _mapper.Map<List<CategoryIdDTO>>(categories);
+    }
+
     public async Task CreateCategory(CreateCategoryDTO categoryDto)
     {
         await _categoryRepository.CreateAsync(_mapper.Map<Category>(categoryDto));

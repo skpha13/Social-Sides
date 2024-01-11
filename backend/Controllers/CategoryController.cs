@@ -90,7 +90,14 @@ namespace backend.Controllers
                 Message = "Category failed to be deleted"
             });
         }
-        
-        // TODO: join with userId for /categories in fronted 
+
+        [Authorize]
+        [HttpGet("all/with")]
+        [ProducesResponseType(typeof(List<CategoryIdDTO>), 200)]
+        public IActionResult GetCategoriesWithCreator([FromQuery] bool? user)
+        {
+            var userId = _userManager.GetUserId(User);
+            return Ok(_categoryService.GetCategoriesWithCreator(new Guid(userId)));
+        }
     }
 }

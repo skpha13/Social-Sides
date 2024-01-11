@@ -48,7 +48,7 @@ fetchPosts();
     />
   </div>
 
-  <div v-if="arePostsLoaded" class="flex flex-col justify-center sm:justify-start">
+  <div v-if="arePostsLoaded" class="flex flex-col items-center sm:items-start">
     <PostCard v-for="item in posts" :key="item.id"
               :text="item.text"
               :category="item.relations.category"

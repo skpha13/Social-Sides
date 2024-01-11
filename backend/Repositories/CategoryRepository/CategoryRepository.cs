@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
+using backend.Models.DTOs;
 using backend.Repositories.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,5 +39,19 @@ public class CategoryRepository : GenericRepository<Category>, ICategoryReposito
         }
 
         return query.ToList();
+    }
+
+    public List<Category> GetCategoriesWithCreator(Guid userId)
+    {
+        var categories = _dbContext.Categories.Join(
+            _dbContext.UserFollowsCategories,
+            c => c.Id,
+            u => u.CategoryId,
+            (c, u) => new { Category = c, User = u }
+        )
+        .Where(joinResult => joinResult.User.UserId == userId)
+        .Select(joinResult => joinResult.Category)
+        .ToList();
+        return categories;
     }
 }

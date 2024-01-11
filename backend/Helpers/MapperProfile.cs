@@ -19,6 +19,9 @@ public class MapperProfile : AutoMapper.Profile
         
         CreateMap<Profile, ProfileDTO>();
         CreateMap<ProfileDTO, Profile>();
+
+        CreateMap<Category, CategoryIdDTO>();
+        CreateMap<CategoryIdDTO, Category>();
         
         CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>()
