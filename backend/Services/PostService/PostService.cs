@@ -22,9 +22,10 @@ public class PostService : IPostService
         return _mapper.Map<List<PostDTO>>(postList);
     }
 
-    public bool DeletePostById(Guid id)
+    public async Task<bool> DeletePostById(Guid id)
     {
-        return _postRepository.DeleteById(id);
+        _postRepository.DeleteById(id);
+        return await _postRepository.SaveAsync();
     }
 
     public List<PostIncludesDTO> GetPostsWithIncludes(string? include)
@@ -36,6 +37,7 @@ public class PostService : IPostService
     public async Task CreatePost(CreatePostDTO createPostDto)
     {
         await _postRepository.CreateAsync(_mapper.Map<Post>(createPostDto));
+        await _postRepository.SaveAsync();
     }
 
     public async Task UpdatePost(UpdatePostDTO updatePostDto)
@@ -49,5 +51,6 @@ public class PostService : IPostService
         if (updatePostDto.Text.Any()) existingPost.Text = updatePostDto.Text;
 
         _postRepository.Update(_mapper.Map<Post>(existingPost));
+        await _postRepository.SaveAsync();
     }
 }

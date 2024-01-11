@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.UserFollowsCategoryDTOs;
 using backend.Models.RelationsDTOs;
 using Microsoft.AspNetCore.Identity;
 using Profile = AutoMapper.Profile;
@@ -19,6 +20,11 @@ public class MapperProfile : AutoMapper.Profile
         
         CreateMap<Profile, ProfileDTO>();
         CreateMap<ProfileDTO, Profile>();
+
+        CreateMap<Category, CategoryIdDTO>();
+        CreateMap<CategoryIdDTO, Category>();
+
+        CreateMap<UserFollowsCategoryDTO, UserFollowsCategory>();
         
         CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>()
@@ -65,8 +71,8 @@ public class MapperProfile : AutoMapper.Profile
                         UserName = src.User.UserName,
                         Email = src.User.Email
                     } : null,
+                    // TODO: include comments
                     // Comments = src.Comments,
-                    // Saves = src.Saves
                 }));
             
         CreateMap<Comment, CommentDTO>();
@@ -80,7 +86,8 @@ public class MapperProfile : AutoMapper.Profile
             .ForMember(c => c.DateCreated, opt =>
                 opt.MapFrom(src => DateTime.Now));
 
-        CreateMap<UpdateCategoryDTO, Category>();
+        CreateMap<UpdateCategoryDTO, Category>()
+            .ForMember(ob => ob.LastModified, opt => opt.MapFrom(src => DateTime.Now));
 
         CreateMap<CreatePostDTO, Post>()
             .ForMember(c => c.LastModified, opt =>
@@ -88,6 +95,7 @@ public class MapperProfile : AutoMapper.Profile
             .ForMember(c => c.DateCreated, opt =>
                     opt.MapFrom(src => DateTime.Now));
 
-        CreateMap<UpdatePostDTO, Post>();
+        CreateMap<UpdatePostDTO, Post>()
+            .ForMember(ob => ob.LastModified, opt => opt.MapFrom(src => DateTime.Now));
     }
 }

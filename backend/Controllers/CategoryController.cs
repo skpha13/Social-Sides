@@ -74,9 +74,9 @@ namespace backend.Controllers
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(typeof(ErrorResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public IActionResult DeleteCategoryById(Guid id)
+        public async Task<IActionResult> DeleteCategoryById(Guid id)
         {
-            var result = _categoryService.DeleteCategoryById(id);
+            var result = await _categoryService.DeleteCategoryById(id);
             if (result == true)
                 return Ok(new ErrorResponse()
                 {
@@ -90,7 +90,14 @@ namespace backend.Controllers
                 Message = "Category failed to be deleted"
             });
         }
-        
-        // TODO: join with userId for /categories in fronted 
+
+        [Authorize]
+        [HttpGet("all/with")]
+        [ProducesResponseType(typeof(List<CategoryIdDTO>), 200)]
+        public IActionResult GetCategoriesWithCreator([FromQuery] bool? user)
+        {
+            var userId = _userManager.GetUserId(User);
+            return Ok(_categoryService.GetCategoriesWithCreator(new Guid(userId)));
+        }
     }
 }

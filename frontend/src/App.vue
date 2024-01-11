@@ -14,20 +14,14 @@ const check_authentication = async () => {
     const response = await axios.get('User/authenticated',{withCredentials: true});
     store.isAuthenticated = response.data.isLoggedIn;
     store.userId = response.data.userId;
-
-    router.push({name: 'home'});
-    return;
-
-    router.push({name: 'login'});
   } catch (data) {
     console.log(data);
     console.log("Not logged in");
   }
 }
 
-check_authentication();
-
 router.beforeEach(async (to, from, next) => {
+  await check_authentication();
   if (to.meta.requiresAuth && !store.isAuthenticated) {
     next({
       name: 'login',
@@ -110,34 +104,6 @@ const changeThemeOS = () => {
   toggleTheme()
 }
 // ======================================
-
-
-const login = async () => {
-  try {
-    let payload = {
-      email: 'mal13adi03@gmail.com',
-      password: 'parolaskpha'
-    }
-    const response = await axios.post('https://localhost:7116/api/User/login', payload, {
-      withCredentials: true
-    })
-    console.log(response.data)
-
-     let payload2 =
-         {
-           "id": "439c82bf-f8cd-4300-a467-03a1f85a6d63",
-           "userName": "skpha3",
-           "email": "test@gmail.com",
-           "password": "test123test"
-         }
-     const response2 = await axios.patch("https://localhost:7116/api/User/update",payload2, {withCredentials: true});
-     console.log(response2);
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-// login();
 </script>
 
 <template>

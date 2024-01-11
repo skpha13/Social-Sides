@@ -11,15 +11,6 @@ public class CategoryRepository : GenericRepository<Category>, ICategoryReposito
     {
     }
 
-    public DateTime? GetDateFromId(Guid id)
-    {
-        return _table
-            .AsNoTracking()
-            .Where(src => src.Id == id)
-            .Select(src => src.DateCreated)
-            .FirstOrDefault();
-    }
-
     public List<Category> GetAllCategoriesWithIncludes(string? include)
     {
         IQueryable<Category> query = _table;
@@ -38,5 +29,19 @@ public class CategoryRepository : GenericRepository<Category>, ICategoryReposito
         }
 
         return query.ToList();
+    }
+
+    public List<Category> GetCategoriesWithCreator(Guid userId)
+    {
+        var categories = _dbContext.Categories.Join(
+            _dbContext.UserFollowsCategories,
+            c => c.Id,
+            u => u.CategoryId,
+            (c, u) => new { Category = c, User = u }
+        )
+        .Where(joinResult => joinResult.User.UserId == userId)
+        .Select(joinResult => joinResult.Category)
+        .ToList();
+        return categories;
     }
 }

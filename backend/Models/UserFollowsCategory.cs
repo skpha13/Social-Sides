@@ -1,4 +1,6 @@
-﻿namespace backend.Models;
+﻿using backend.Models.Base;
+
+namespace backend.Models;
 
 public class UserFollowsCategory
 {
