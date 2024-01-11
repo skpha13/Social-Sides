@@ -1,10 +1,12 @@
 ﻿using backend.Helpers.Seeders;
 using backend.Models;
 using backend.Repositories.CategoryRepository;
+using backend.Repositories.JoinCategoryRepository;
 using backend.Repositories.PostRepository;
 using backend.Repositories.UserRepository;
 using backend.Services;
 using backend.Services.CategoryService;
+using backend.Services.JoinCategoryService;
 using backend.Services.PostActionService;
 using backend.Services.PostService;
 using backend.Services.UserService;
@@ -19,6 +21,7 @@ public static class ServiceExtensions
         services.AddTransient<IPostRepository, PostRepository>();
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<ICategoryRepository, CategoryRepository>();
+        services.AddTransient<IJoinCategoryRepository, JoinCategoryRepository>();
         services.AddScoped<UserManager<User>>();
         services.AddScoped<RoleManager<IdentityRole<Guid>>>();
 
@@ -31,6 +34,7 @@ public static class ServiceExtensions
         services.AddTransient<IUserService, UserService>();
         services.AddTransient<ICategoryService, CategoryService>();
         services.AddTransient<IPostActionService, PostActionService>();
+        services.AddTransient<IJoinCategoryService, JoinCategoryService>();
 
         return services;
     }

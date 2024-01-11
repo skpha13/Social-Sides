@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.UserFollowsCategoryDTOs;
 using backend.Models.RelationsDTOs;
 using Microsoft.AspNetCore.Identity;
 using Profile = AutoMapper.Profile;
@@ -22,6 +23,8 @@ public class MapperProfile : AutoMapper.Profile
 
         CreateMap<Category, CategoryIdDTO>();
         CreateMap<CategoryIdDTO, Category>();
+
+        CreateMap<UserFollowsCategoryDTO, UserFollowsCategory>();
         
         CreateMap<User, UserDTO>();
         CreateMap<UserDTO, User>()

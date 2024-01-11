@@ -9,6 +9,9 @@ const props = defineProps<{
   color: string
 }>();
 
+const emit = defineEmits<{
+  (e: 'join-category', id: string): void
+}>();
 interface ICategoryId {
   id: string
 }
@@ -41,7 +44,7 @@ const checkCategoryMembership = () => {
   <div class="flex flex-row justify-between hover:cursor-pointer
               text-xl mb-6 border-b">
     <h1>{{ props.title }}</h1>
-    <div v-if="checkCategoryMembership()"
+    <div v-if="checkCategoryMembership()" @click="emit('join-category',props.id)"
           class="flex items-center w-24 justify-between border rounded-lg px-4 mb-2 hover:backdrop-brightness-200"
           :style="{color: props.color, borderColor: props.color}">
       <p class="text-base font-semibold">Join</p>

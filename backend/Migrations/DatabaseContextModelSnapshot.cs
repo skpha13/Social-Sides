@@ -176,7 +176,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.Comment", b =>
@@ -208,7 +208,7 @@ namespace backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.Liked", b =>
@@ -223,7 +223,7 @@ namespace backend.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.Post", b =>
@@ -255,7 +255,7 @@ namespace backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.Saved", b =>
@@ -270,7 +270,7 @@ namespace backend.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Saves");
+                    b.ToTable("Saves", (string)null);
                 });
 
             modelBuilder.Entity("backend.Models.User", b =>
@@ -354,7 +354,7 @@ namespace backend.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("UserFollowsCategories");
+                    b.ToTable("UserFollowsCategories", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
