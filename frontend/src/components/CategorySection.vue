@@ -26,8 +26,6 @@ const fetchCategories = async () => {
   categories.value.map((category) => {
     map.value.set(category.id, true);
   });
-
-  console.log(map.value);
 }
 
 fetchCategories();
