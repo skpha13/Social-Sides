@@ -35,21 +35,23 @@ public class CategoryService : ICategoryService
     public async Task CreateCategory(CreateCategoryDTO categoryDto)
     {
         await _categoryRepository.CreateAsync(_mapper.Map<Category>(categoryDto));
+        await _categoryRepository.SaveAsync();
     }
 
-    public bool DeleteCategoryById(Guid id)
+    public async Task<bool> DeleteCategoryById(Guid id)
     {
-        return _categoryRepository.DeleteById(id);
+        _categoryRepository.DeleteById(id);
+        return await _categoryRepository.SaveAsync();
     }
 
-    public void UpdateCategory(UpdateCategoryDTO updateCategoryDto)
+    public async Task UpdateCategory(UpdateCategoryDTO updateCategoryDto)
     {
         // TODO: change how update works
         // if ca category has posts and users then when updating they will become null
         // because .NET update changes every field no matter what
         // IDEA: iterate trough fields and see which one proposes changes
         var category = _mapper.Map<Category>(updateCategoryDto);
-        category.DateCreated = _categoryRepository.GetDateFromId(updateCategoryDto.Id);
         _categoryRepository.Update(_mapper.Map<Category>(category));
+        await _categoryRepository.SaveAsync();
     }
 }

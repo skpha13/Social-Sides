@@ -74,9 +74,9 @@ namespace backend.Controllers
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(typeof(ErrorResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public IActionResult DeleteCategoryById(Guid id)
+        public async Task<IActionResult> DeleteCategoryById(Guid id)
         {
-            var result = _categoryService.DeleteCategoryById(id);
+            var result = await _categoryService.DeleteCategoryById(id);
             if (result == true)
                 return Ok(new ErrorResponse()
                 {

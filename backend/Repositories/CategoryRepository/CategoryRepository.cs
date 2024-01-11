@@ -1,6 +1,5 @@
 ﻿using backend.Data;
 using backend.Models;
-using backend.Models.DTOs;
 using backend.Repositories.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,15 +9,6 @@ public class CategoryRepository : GenericRepository<Category>, ICategoryReposito
 {
     public CategoryRepository(DatabaseContext dbContext) : base(dbContext)
     {
-    }
-
-    public DateTime? GetDateFromId(Guid id)
-    {
-        return _table
-            .AsNoTracking()
-            .Where(src => src.Id == id)
-            .Select(src => src.DateCreated)
-            .FirstOrDefault();
     }
 
     public List<Category> GetAllCategoriesWithIncludes(string? include)

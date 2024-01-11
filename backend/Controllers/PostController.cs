@@ -51,9 +51,9 @@ namespace backend.Controllers
         [HttpDelete("posts/{postId}")]
         [ProducesResponseType(typeof(ErrorResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public IActionResult DeletePost(Guid postId)
+        public async Task<IActionResult> DeletePost(Guid postId)
         {
-            var deleted = _postService.DeletePostById(postId);
+            var deleted = await _postService.DeletePostById(postId);
             if (deleted == false)
             {
                 return BadRequest(new ErrorResponse()

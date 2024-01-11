@@ -5,7 +5,6 @@ namespace backend.Repositories.CategoryRepository;
 
 public interface ICategoryRepository : IGenericRepository<Category>
 {
-    DateTime? GetDateFromId(Guid id);
     List<Category> GetAllCategoriesWithIncludes(string? include);
     List<Category> GetCategoriesWithCreator(Guid userId);
 }
