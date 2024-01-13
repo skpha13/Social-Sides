@@ -5,6 +5,9 @@ import axios from './Helpers/AxiosInstance'
 import { getMessaging, getToken, onMessage } from 'firebase/messaging'
 import { initializeApp } from 'firebase/app'
 import { store } from './Helpers/Authenticated'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
 
 // ============ ROUTE CHECKS ============
 const router = useRouter();
@@ -48,8 +51,7 @@ const app = initializeApp(firebaseConfig)
 const messaging = getMessaging()
 
 onMessage(messaging, (payload) => {
-  // TODO: display this message on top of window
-  console.log('Message received. ', payload.notification)
+  toast.info(payload.notification?.body);
 })
 
 getToken(messaging, {
