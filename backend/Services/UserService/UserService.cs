@@ -89,7 +89,7 @@ public class UserService : IUserService
             return user.Id;
         }
 
-        throw new Exception("Login failed");
+        throw new Exception("Wrong Password");
     }
 
     public async Task Logout()

@@ -4,6 +4,9 @@ import { Category, type ICategory } from '@/models/Category'
 import { ref } from 'vue'
 import CategorySection from '@/components/CategorySection.vue'
 import { JoinCategory } from '@/models/JoinCategory'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
 
 // ======== CATEGORY FETCHING ========
 const categories = ref<ICategory[]>([])
@@ -25,8 +28,11 @@ const joinCategory = async (id: string) => {
 
   const joinWorker = new JoinCategory();
   let response = await joinWorker.join(payload);
-  // TODO: notification/message here
-  console.log(response);
+  if (response.statusCode == 200) {
+    toast.success(response.message);
+  } else {
+    toast.error(response.message);
+  }
   areCategoriesLoaded.value = false;
   categories.value = await categoryWorker.all();
   areCategoriesLoaded.value = true;
