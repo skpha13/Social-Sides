@@ -3,9 +3,11 @@ import axios from '../Helpers/AxiosInstance'
 import { useRoute, useRouter } from 'vue-router'
 import { store } from '@/Helpers/Authenticated'
 import PageTitle from '@/components/PageTitle.vue'
+import { useToast } from 'vue-toastification'
 
 const route = useRoute();
 const router = useRouter();
+const toast = useToast();
 
 const handleIconClick = (node: any) => {
   node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
@@ -23,7 +25,7 @@ const loginHandler = async (credentials: any) => {
 
     router.push({ path: redirectPath});
   } catch (data) {
-    console.log(data.data);
+    toast.error(data?.response.data.message);
   }
 }
 </script>
