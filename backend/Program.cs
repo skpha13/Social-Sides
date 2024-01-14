@@ -40,7 +40,8 @@ builder.Services.Configure<IdentityOptions>(opt =>
 	opt.SignIn.RequireConfirmedAccount = false;
 	opt.SignIn.RequireConfirmedEmail = false;
 	opt.SignIn.RequireConfirmedPhoneNumber = false;
-	opt.SignIn.RequireConfirmedEmail = true;
+	opt.SignIn.RequireConfirmedEmail = false;
+	opt.Lockout.AllowedForNewUsers = false;
 });
 
 FirebaseApp.Create(new AppOptions()

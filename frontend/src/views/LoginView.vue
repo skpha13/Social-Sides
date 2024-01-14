@@ -16,16 +16,16 @@ const handleIconClick = (node: any) => {
 
 const loginHandler = async (credentials: any) => {
   try {
-    let response = await axios.post('User/login', credentials)
+    let response = await axios.post('User/login', credentials);
     axios.patch(`User/device-token/${localStorage.getItem('device_token')}`);
     store.isAuthenticated = true;
     store.userId = response.data.id;
 
     const redirectPath = route.query.redirect || '/home'
 
-    router.push({ path: redirectPath});
-  } catch (data) {
-    toast.error(data?.response.data.message);
+    router.push({ path: redirectPath });
+  } catch (error) {
+    toast.error(error?.response.data.message);
   }
 }
 </script>

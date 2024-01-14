@@ -102,11 +102,7 @@ public class UserService : IUserService
         var existsUser = await _userManager.FindByEmailAsync(signUpDto.Email);
 
         if (existsUser != null)
-            return new ErrorResponse()
-            {
-                StatusCode = 400,
-                Message = "An account with this email already exists"
-            };
+            throw new AccountAlreadyExistsException("An account with this email already exists");
 
         var user = _mapper.Map<User>(signUpDto);
         var result = await _userManager.CreateAsync(user);
@@ -135,7 +131,8 @@ public class UserService : IUserService
             string Subject = "Email confirmation";
    
             var sendSmtpEmail = new SendSmtpEmail(emailSender, To, null, null, HtmlContent, TextContent, Subject);
-            CreateSmtpEmail sent = apiInstance.SendTransacEmail(sendSmtpEmail);
+            // TODO: create another account to send emails, until then stop this from happening
+            // CreateSmtpEmail sent = apiInstance.SendTransacEmail(sendSmtpEmail);
   
             return new ErrorResponse()
             {
