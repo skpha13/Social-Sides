@@ -175,6 +175,14 @@ namespace backend.Controllers
             {
                 return Ok(await _userService.SignUp(signUpDto));
             }
+            catch (AccountAlreadyExistsException exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
             catch (Exception exception)
             {
                 return BadRequest(new ErrorResponse()

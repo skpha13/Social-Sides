@@ -1,18 +1,34 @@
 <script setup lang="ts">
 import PageTitle from '@/components/PageTitle.vue'
+import axios from '../Helpers/AxiosInstance'
+import { store } from '@/Helpers/Authenticated'
+import { useRoute, useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+
+const route = useRoute();
+const router = useRouter();
+const toast = useToast();
+
 
 const handleIconClick = (node:any) => {
   node.props.suffixIcon = node.props.suffixIcon === 'eye' ? 'eyeClosed' : 'eye'
   node.props.type = node.props.type === 'password' ? 'text' : 'password'
 }
 
-const registerHandler = (credentials:any) => {
+const registerHandler = async (credentials:any) => {
   let payload = {
     username: credentials.username,
     email: credentials.email,
     password: credentials.password
   }
-  console.log('Register: ', payload);
+
+  try {
+    let response = await axios.post('User/register', payload);
+    toast.success(response.data.message);
+    router.push({ name: 'home' });
+  } catch (error) {
+    toast.error(error?.response.data.message);
+  }
 }
 
 </script>
