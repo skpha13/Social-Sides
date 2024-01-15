@@ -1,6 +1,9 @@
+using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.PostDTOs;
 using backend.Models.Responses;
 using backend.Services.PostService;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +16,12 @@ namespace backend.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly UserManager<User> _userManager;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, UserManager<User> userManager)
         {
             _postService = postService;
+            _userManager = userManager;
         }
 
         [Authorize]
@@ -75,7 +80,15 @@ namespace backend.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 200)]
         public async Task<IActionResult> CreatePost([FromBody] CreatePostDTO createPostDto)
         {
-            await _postService.CreatePost(createPostDto);
+            var userId = new Guid(_userManager.GetUserId(User));
+            var payload = new CreatePostUserDTO()
+            {
+                Text = createPostDto.Text,
+                CategoryId = new Guid(createPostDto.CategoryId),
+                UserId = userId
+            };
+            
+            await _postService.CreatePost(payload);
             return Ok(new ErrorResponse()
             {
                 StatusCode = 200,
