@@ -5,6 +5,7 @@ import Register from '@/views/RegisterView.vue'
 import Profile from '@/views/ProfileView.vue'
 import Categories from '@/views/CategoriesView.vue'
 import AddPost from '@/views/AddPostView.vue'
+import NotFound from '@/views/404PageView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +52,10 @@ const router = createRouter({
       component: Profile,
       meta: { requiresAuth: true }
     },
+    { path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
+    }
   ]
 })
 
