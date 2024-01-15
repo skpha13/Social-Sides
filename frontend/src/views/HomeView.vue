@@ -50,9 +50,13 @@ fetchPosts();
 
   <div v-if="arePostsLoaded" class="flex flex-col items-center sm:items-start">
     <PostCard v-for="item in posts" :key="item.id"
+              :id="item.id"
               :text="item.text"
+              :total-likes="item.totalLikes"
+              :is-liked="item.isLikedByUser"
               :category="item.relations.category"
               :user="item.relations.user"
+              :comments="item.relations.comments"
               :date="item.dateCreated" />
   </div>
 </template>

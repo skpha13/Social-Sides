@@ -4,15 +4,22 @@ import type { IUser } from '@/models/User'
 import { getTimeElapsed } from '@/utils/DateUtils'
 import { ref } from 'vue'
 import { store } from '@/Helpers/Authenticated'
+import type { IComment } from '@/models/Comment'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 const formattedDate = ref<string>("");
 const userName = ref<string>("Unknown");
 const showCategory = ref(false);
+const heartType = ref<string>("fa-regular fa-heart");
 
 const props = defineProps<{
-  text: string
+  id: string,
+  text: string,
+  totalLikes: number,
+  isLiked: boolean,
   user: IUser
   category?: ICategory
+  comments: IComment[]
   date: string
 }>();
 
@@ -24,6 +31,10 @@ if (props.user.id == store.userId) {
 
 if (props.category) {
   showCategory.value = true;
+}
+
+if (props.isLiked) {
+  heartType.value = "fa-solid fa-heart";
 }
 
 // setInterval starts after 0.5s, so to reduce the wait time
@@ -49,6 +60,13 @@ setInterval(() => {
     <div class="mx-4">
       <h2 class="font-bold"> {{ userName }} </h2>
       <p class="text-textLight dark:text-textDark"> {{ props.text }} </p>
+    </div>
+
+    <div class="flex flex-row items-center
+          border-t border-borderLight-default dark:border-borderDark-default mt-2">
+      <font-awesome-icon :icon="heartType" class="mt-2 hover:cursor-pointer mr-2"/>
+      <p class="flex-grow text-sm text-textLight dark:text-textDark mr-8 relative top-[0.15rem]">{{ totalLikes }}</p>
+      <font-awesome-icon icon="fa-regular fa-message" class="mt-2 hover:cursor-pointer"/>
     </div>
   </div>
 </template>
