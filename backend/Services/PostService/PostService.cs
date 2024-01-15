@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.PostDTOs;
 using backend.Repositories.PostRepository;
 
 namespace backend.Services.PostService;
@@ -34,9 +35,9 @@ public class PostService : IPostService
         return _mapper.Map<List<PostIncludesDTO>>(posts);
     }
 
-    public async Task CreatePost(CreatePostDTO createPostDto)
+    public async Task CreatePost(CreatePostUserDTO payload)
     {
-        await _postRepository.CreateAsync(_mapper.Map<Post>(createPostDto));
+        await _postRepository.CreateAsync(_mapper.Map<Post>(payload));
         await _postRepository.SaveAsync();
     }
 

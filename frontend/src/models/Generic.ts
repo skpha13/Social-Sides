@@ -15,4 +15,13 @@ export abstract class Generic {
         return [];
       });
   }
+
+  public create = async (payload: any) => {
+    return await axios.post(`${this.routeName}/create`, payload)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error(error.response);
+        throw error.response.data.title;
+      })
+  }
 }

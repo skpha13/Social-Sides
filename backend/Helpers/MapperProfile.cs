@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.PostDTOs;
 using backend.Models.DTOs.UserFollowsCategoryDTOs;
 using backend.Models.RelationsDTOs;
 using Microsoft.AspNetCore.Identity;
@@ -97,5 +98,11 @@ public class MapperProfile : AutoMapper.Profile
 
         CreateMap<UpdatePostDTO, Post>()
             .ForMember(ob => ob.LastModified, opt => opt.MapFrom(src => DateTime.Now));
+
+        CreateMap<CreatePostUserDTO, Post>()
+            .ForMember(c => c.LastModified, opt =>
+                opt.MapFrom(src => DateTime.Now))
+            .ForMember(c => c.DateCreated, opt =>
+                opt.MapFrom(src => DateTime.Now));
     }
 }

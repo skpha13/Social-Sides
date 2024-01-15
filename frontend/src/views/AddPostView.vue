@@ -3,6 +3,7 @@ import PageTitle from '@/components/PageTitle.vue'
 import { useToast } from 'vue-toastification'
 import { ref } from 'vue'
 import { Category, type ICategory } from '@/models/Category'
+import { Post, type IPost } from '@/models/Post'
 
 const toast = useToast();
 
@@ -31,8 +32,15 @@ const fetchCategories = async () => {
 fetchCategories();
 // ====================================
 
-const addingPostHandler = async () => {
 
+const addingPostHandler = async (payload:any) => {
+  const postWorker = new Post()
+  try {
+    let response = await postWorker.create(payload);
+    toast.success(response.message);
+  } catch (error:any) {
+    toast.error(error);
+  }
 }
 
 </script>
