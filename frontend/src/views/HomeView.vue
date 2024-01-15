@@ -26,7 +26,7 @@ const arePostsLoaded = ref(false);
 const postWoker = new Post()
 
 const fetchPosts = async () => {
-  posts.value = await postWoker.all('?include=category,user');
+  posts.value = await postWoker.all('?include=category,user,comments');
   arePostsLoaded.value = true;
 }
 

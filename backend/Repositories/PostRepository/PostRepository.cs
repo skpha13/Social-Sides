@@ -35,4 +35,17 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
 
         return query.ToList();
     }
+
+    public bool IsLikedBy(Guid userId, Guid postId)
+    {
+        var likedBy = _table.Where(p => p.Id == postId).Join(
+            _dbContext.Likes,
+            post => post.Id,
+            like => like.PostId,
+            (post, like) => new
+            {
+                UserId = like.UserId
+            }).ToList();
+        return likedBy.Any(src => src.UserId == userId);
+    }
 }

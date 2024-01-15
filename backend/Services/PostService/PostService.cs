@@ -35,7 +35,7 @@ public class PostService : IPostService
         var mappedPosts = _mapper.Map<List<PostIncludesDTO>>(posts);
         foreach (var post in mappedPosts)
         {
-            post.isLikedByUser = post.Relations.User?.Id == userId;
+            post.isLikedByUser = _postRepository.IsLikedBy(userId, post.Id);
         }
         return mappedPosts;
     }

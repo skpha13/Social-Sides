@@ -6,4 +6,5 @@ namespace backend.Repositories.PostRepository;
 public interface IPostRepository : IGenericRepository<Post>
 {
     List<Post>  GetAllPostsWithIncludes(string? include);
+    bool IsLikedBy(Guid userId, Guid postId);
 }
