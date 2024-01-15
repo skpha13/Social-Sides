@@ -7,6 +7,7 @@ public class Post : BaseEntity
 {
     [MaxLength(255, ErrorMessage = "Description cannot exceed 255 characters")]
     public string Text { get; set; }
+    public Int32 TotalLikes { get; set; }
     
     // TODO: img/video here with AWS
     public Category? Category { get; set; }

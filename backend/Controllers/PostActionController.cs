@@ -1,6 +1,8 @@
 using backend.Models;
+using backend.Models.DTOs.CommentDTOs;
 using backend.Models.Responses;
 using backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
@@ -22,21 +24,13 @@ namespace backend.Controllers
             _userManager = userManager;
         }
         
-        [HttpPost("like/{postId}")]
+        [Authorize]
         [ProducesResponseType(typeof(ErrorResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
+        [HttpPost("like/{postId}")]
         public async Task<IActionResult> LikePost(Guid postId)
         {
             var userId = _userManager.GetUserId(User);
-            if (userId == null)
-            {
-                return NotFound(new ErrorResponse()
-                {
-                    StatusCode = 404,
-                    Message = "User not logged in"
-                });
-            }
 
             try
             {
@@ -56,6 +50,34 @@ namespace backend.Controllers
                 StatusCode = 200,
                 Message = "Liked post"
             });
+        }
+        
+        // TODO: unlike
+
+        [Authorize]
+        [HttpPost("comment")]
+        public async Task<IActionResult> CommentOnPost([FromBody] CreateCommentDTO commentDto)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            try
+            {
+                await _postActionService.CommentOnPost(userId, commentDto);
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Comment sent"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
         }
     }
 }

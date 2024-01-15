@@ -29,9 +29,6 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
                     case "comments":
                         query = query.Include(p => p.Comments);
                         break;
-                    case "saves":
-                        query = query.Include(p => p.Saves);
-                        break;
                 }
             }
         }

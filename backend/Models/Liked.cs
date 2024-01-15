@@ -1,6 +1,8 @@
-﻿namespace backend.Models;
+﻿using backend.Models.Base;
 
-public class Liked
+namespace backend.Models;
+
+public class Liked : BaseEntity
 {
     public User User { get; set; }
     public Guid UserId { get; set; }

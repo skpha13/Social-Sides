@@ -1,7 +1,9 @@
 ﻿using backend.Helpers.Seeders;
 using backend.Models;
 using backend.Repositories.CategoryRepository;
+using backend.Repositories.CommentRepository;
 using backend.Repositories.JoinCategoryRepository;
+using backend.Repositories.LikeRepository;
 using backend.Repositories.PostRepository;
 using backend.Repositories.UserRepository;
 using backend.Services;
@@ -22,6 +24,8 @@ public static class ServiceExtensions
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<ICategoryRepository, CategoryRepository>();
         services.AddTransient<IJoinCategoryRepository, JoinCategoryRepository>();
+        services.AddTransient<ICommentRepository, CommentRepository>();
+        services.AddTransient<ILikeRepository, LikeRepository>();
         services.AddScoped<UserManager<User>>();
         services.AddScoped<RoleManager<IdentityRole<Guid>>>();
 

@@ -1,5 +1,6 @@
 ﻿using backend.Models;
 using backend.Models.DTOs;
+using backend.Models.DTOs.CommentDTOs;
 using backend.Models.DTOs.PostDTOs;
 using backend.Models.DTOs.UserFollowsCategoryDTOs;
 using backend.Models.RelationsDTOs;
@@ -31,6 +32,12 @@ public class MapperProfile : AutoMapper.Profile
         CreateMap<UserDTO, User>()
             .ForMember(u => u.Id, 
                 opt => opt.MapFrom(src => new Guid()));
+
+        CreateMap<CreateCommentDTO, Comment>()
+            .ForMember(c => c.LastModified, opt =>
+                opt.MapFrom(src => DateTime.Now))
+            .ForMember(c => c.DateCreated, opt =>
+                opt.MapFrom(src => DateTime.Now));
 
         CreateMap<UserCreateDTO, User>()
             .ForMember(u => u.Id, opt => 
@@ -72,8 +79,12 @@ public class MapperProfile : AutoMapper.Profile
                         UserName = src.User.UserName,
                         Email = src.User.Email
                     } : null,
-                    // TODO: include comments
-                    // Comments = src.Comments,
+                    Comments = (src.Comments != null) ? src.Comments.Select(c => new CommentDTO()
+                    {
+                        UserId = c.UserId,
+                        Text = c.Text,
+                        LastModified = c.LastModified
+                    }).ToList() : null
                 }));
             
         CreateMap<Comment, CommentDTO>();
@@ -94,7 +105,9 @@ public class MapperProfile : AutoMapper.Profile
             .ForMember(c => c.LastModified, opt =>
                     opt.MapFrom(src => DateTime.Now))
             .ForMember(c => c.DateCreated, opt =>
-                    opt.MapFrom(src => DateTime.Now));
+                    opt.MapFrom(src => DateTime.Now))
+            .ForMember(c => c.TotalLikes, opt => 
+                    opt.MapFrom(src => 0));
 
         CreateMap<UpdatePostDTO, Post>()
             .ForMember(ob => ob.LastModified, opt => opt.MapFrom(src => DateTime.Now));

@@ -21,6 +21,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await _table.AsNoTracking().ToListAsync();
     }
 
+    public async Task<TEntity?> GetByIdAsync(Guid id)
+    {
+        return await _table.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+    }
+
     public async Task CreateAsync(TEntity entity)
     {
         await _table.AddAsync(entity);
