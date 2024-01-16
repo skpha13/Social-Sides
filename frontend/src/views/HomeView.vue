@@ -5,6 +5,10 @@ import { ref } from 'vue'
 import CategoryDisplay from '@/components/CategoryDisplay.vue'
 import PostCard from '@/components/PostCard.vue'
 import PageTitle from '@/components/PageTitle.vue'
+import { Like } from '@/models/Like'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast();
 
 // ======== CATEGORY FETCHING ========
 const categories = ref<ICategory[]>([])
@@ -23,15 +27,26 @@ fetchCategories();
 const posts = ref<IPost[]>([]);
 const arePostsLoaded = ref(false);
 
-const postWoker = new Post()
+const postWorker = new Post()
 
 const fetchPosts = async () => {
-  posts.value = await postWoker.all('?include=category,user,comments');
+  posts.value = await postWorker.all('?include=category,user,comments');
   arePostsLoaded.value = true;
 }
 
 fetchPosts();
 // ===============================
+
+// ======== LIKE ACTION ========
+const likeWorker = new Like();
+const handleLike = async (payload: any) => {
+  if (payload.option) {
+    let resonse = await likeWorker.like(payload.postId);
+    fetchPosts();
+    toast.success(resonse.message);
+  }
+}
+// =============================
 </script>
 
 <template>
@@ -57,6 +72,8 @@ fetchPosts();
               :category="item.relations.category"
               :user="item.relations.user"
               :comments="item.relations.comments"
-              :date="item.dateCreated" />
+              :date="item.dateCreated"
+              @like-action="handleLike"
+    />
   </div>
 </template>

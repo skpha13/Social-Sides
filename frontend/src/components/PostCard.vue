@@ -11,6 +11,9 @@ const formattedDate = ref<string>("");
 const userName = ref<string>("Unknown");
 const showCategory = ref(false);
 const heartType = ref<string>("fa-regular fa-heart");
+// false represents regular, and true solid
+// false = unlike, true = like
+var isOfType: boolean = false;
 
 const props = defineProps<{
   id: string,
@@ -21,6 +24,13 @@ const props = defineProps<{
   category?: ICategory
   comments: IComment[]
   date: string
+}>();
+
+const emit = defineEmits<{
+  (e: 'like-action', payload: {
+    option: boolean,
+    postId: string
+  }): void
 }>();
 
 if (props.user.id == store.userId) {
@@ -35,6 +45,7 @@ if (props.category) {
 
 if (props.isLiked) {
   heartType.value = "fa-solid fa-heart";
+  isOfType = true;
 }
 
 // setInterval starts after 0.5s, so to reduce the wait time
@@ -43,6 +54,12 @@ formattedDate.value = getTimeElapsed(props.date);
 setInterval(() => {
   formattedDate.value = getTimeElapsed(props.date);
 },500);
+
+const handleLike = () => {
+  heartType.value = isOfType ? "fa-regular fa-heart" : "fa-solid fa-heart"
+  isOfType = !isOfType;
+  emit('like-action', {option: isOfType, postId: props.id});
+}
 </script>
 
 <template>
@@ -64,7 +81,7 @@ setInterval(() => {
 
     <div class="flex flex-row items-center
           border-t border-borderLight-default dark:border-borderDark-default mt-2">
-      <font-awesome-icon :icon="heartType" class="mt-2 hover:cursor-pointer mr-2"/>
+      <font-awesome-icon @click="handleLike" :icon="heartType" class="mt-2 hover:cursor-pointer mr-2"/>
       <p class="flex-grow text-sm text-textLight dark:text-textDark mr-8 relative top-[0.15rem]">{{ totalLikes }}</p>
       <font-awesome-icon icon="fa-regular fa-message" class="mt-2 hover:cursor-pointer"/>
     </div>

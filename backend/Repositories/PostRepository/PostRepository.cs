@@ -1,5 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
+using backend.Models.DTOs.PostDTOs;
 using backend.Repositories.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,5 +48,18 @@ public class PostRepository : GenericRepository<Post>, IPostRepository
                 UserId = like.UserId
             }).ToList();
         return likedBy.Any(src => src.UserId == userId);
+    }
+
+    public DeviceTokenDTO? GetUserNameDeviceToken(Guid postId)
+    {
+        return _table.Where(p => p.Id == postId).Join(
+            _dbContext.Users,
+            post => post.UserId,
+            user => user.Id,
+            (post, user) => new DeviceTokenDTO()
+            {
+                UserName = user.UserName,
+                DeviceToken = user.DeviceToken
+            }).FirstOrDefault();
     }
 }

@@ -2,6 +2,7 @@
 using backend.Data;
 using backend.Models;
 using backend.Models.DTOs.CommentDTOs;
+using backend.Models.DTOs.PostDTOs;
 using backend.Repositories.CommentRepository;
 using backend.Repositories.LikeRepository;
 using backend.Repositories.PostRepository;
@@ -40,6 +41,7 @@ public class PostActionService : IPostActionService
         }
 
         post.TotalLikes += 1;
+        _postRepository.Update(post);
 
         await _likeRepository.CreateAsync(new Liked()
         {
@@ -48,15 +50,21 @@ public class PostActionService : IPostActionService
             DateCreated = DateTime.Now,
             LastModified = DateTime.Now,
         });
+
+        DeviceTokenDTO? deviceToken = _postRepository.GetUserNameDeviceToken(postId);
+        if (deviceToken == null || deviceToken.UserName == null || deviceToken.DeviceToken == null)
+        {
+            throw new Exception("Cannot send notification");
+        }
         
         var messageToSend = new Message()
         {
             Notification = new Notification()
             {
                 Title = "Social-Sides",
-                Body = $"{post.User.UserName} liked your post!"
+                Body = $"{deviceToken.UserName} liked your post!"
             },
-            Token = post.User.DeviceToken
+            Token = deviceToken.DeviceToken
         };
 
         var messaging = FirebaseMessaging.DefaultInstance;
