@@ -30,7 +30,13 @@ const emit = defineEmits<{
   (e: 'like-action', payload: {
     option: boolean,
     postId: string
-  }): void
+  }): void,
+
+  (e: 'comment-popup', payload: {
+    postId: string,
+    comments: IComment[]
+  }) : void
+
 }>();
 
 if (props.user.id == store.userId) {
@@ -83,7 +89,7 @@ const handleLike = () => {
           border-t border-borderLight-default dark:border-borderDark-default mt-2">
       <font-awesome-icon @click="handleLike" :icon="heartType" class="mt-2 hover:cursor-pointer mr-2"/>
       <p class="flex-grow text-sm text-textLight dark:text-textDark mr-8 relative top-[0.15rem]">{{ totalLikes }}</p>
-      <font-awesome-icon icon="fa-regular fa-message" class="mt-2 hover:cursor-pointer"/>
+      <font-awesome-icon @click="emit('comment-popup',{postId: id, comments: comments})" icon="fa-regular fa-message" class="mt-2 hover:cursor-pointer"/>
     </div>
   </div>
 </template>

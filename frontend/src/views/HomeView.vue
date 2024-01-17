@@ -7,6 +7,8 @@ import PostCard from '@/components/PostCard.vue'
 import PageTitle from '@/components/PageTitle.vue'
 import { Like } from '@/models/Like'
 import { useToast } from 'vue-toastification'
+import type { IComment } from '@/models/Comment'
+import CommentsPopUp from '@/components/CommentsPopUp.vue'
 
 const toast = useToast();
 
@@ -55,6 +57,23 @@ const handleLike = async (payload: any, index: number) => {
   }
 }
 // =============================
+
+// ======== COMMENTS ACTION ========
+const commentWorker = new Comment();
+const postId = ref<string>("");
+const commentsPopup = ref<IComment[]>([]);
+const showPopup = ref<boolean>(false);
+
+const handleCommentsPopup = (payload: any) => {
+  commentsPopup.value = payload.comments;
+  postId.value = payload.postId;
+  showPopup.value = true;
+}
+
+const closePopup = () => {
+  showPopup.value = false;
+}
+// =================================
 </script>
 
 <template>
@@ -82,6 +101,13 @@ const handleLike = async (payload: any, index: number) => {
               :comments="item.relations.comments"
               :date="item.dateCreated"
               @like-action="handleLike($event,index)"
+              @comment-popup="handleCommentsPopup"
     />
   </div>
+
+  <CommentsPopUp v-if="showPopup"
+                 @close-popup="closePopup"
+                 :comments="commentsPopup"
+                 :postId="postId"
+  />
 </template>

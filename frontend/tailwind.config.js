@@ -28,6 +28,9 @@ export default {
         },
         headingLight: 'var(--vt-c-text-light-1)',
         textLight: 'var(--vt-c-text-light-2)'
+      },
+      spacing: {
+        '128': '32rem'
       }
     }
   },
