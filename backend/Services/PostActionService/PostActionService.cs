@@ -72,6 +72,27 @@ public class PostActionService : IPostActionService
         await SaveAsync();
     }
 
+    public async Task UnlikePost(Guid userId, Guid postId)
+    {
+        Post? post = await _postRepository.GetByIdAsync(postId);
+
+        if (post == null)
+        {
+            throw new Exception("Post not found");
+        }
+
+        post.TotalLikes -= 1;
+        _postRepository.Update(post);
+
+        _likeRepository.Delete(new Liked()
+        {
+            UserId = userId,
+            PostId = postId,
+        });
+        
+        await SaveAsync();
+    }
+
     public async Task CommentOnPost(string userId, CreateCommentDTO commentDto)
     {
         Post? post = await _postRepository.GetByIdAsync(commentDto.PostId);

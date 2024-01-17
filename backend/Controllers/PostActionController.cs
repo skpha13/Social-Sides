@@ -52,7 +52,33 @@ namespace backend.Controllers
             });
         }
         
-        // TODO: unlike
+        [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [HttpDelete("unlike/{postId}")]
+        public async Task<IActionResult> UnlikePost(Guid postId)
+        {
+            var userId = new Guid(_userManager.GetUserId(User));
+
+            try
+            {
+                await _postActionService.UnlikePost(userId, postId);
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Unliked post"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
+        }
 
         [Authorize]
         [HttpPost("comment")]

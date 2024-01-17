@@ -39,11 +39,19 @@ fetchPosts();
 
 // ======== LIKE ACTION ========
 const likeWorker = new Like();
-const handleLike = async (payload: any) => {
-  if (payload.option) {
-    let resonse = await likeWorker.like(payload.postId);
-    fetchPosts();
-    toast.success(resonse.message);
+const handleLike = async (payload: any, index: number) => {
+  try {
+    if (payload.option) {
+      posts.value[index].totalLikes += 1;
+      let response = await likeWorker.like(payload.postId);
+      fetchPosts();
+    } else {
+      posts.value[index].totalLikes -= 1;
+      let response = await likeWorker.unlike(payload.postId);
+      fetchPosts();
+    }
+  } catch (error: any) {
+    toast.error(error);
   }
 }
 // =============================
@@ -64,7 +72,7 @@ const handleLike = async (payload: any) => {
   </div>
 
   <div v-if="arePostsLoaded" class="flex flex-col items-center sm:items-start">
-    <PostCard v-for="item in posts" :key="item.id"
+    <PostCard v-for="(item, index) in posts" :key="item.id"
               :id="item.id"
               :text="item.text"
               :total-likes="item.totalLikes"
@@ -73,7 +81,7 @@ const handleLike = async (payload: any) => {
               :user="item.relations.user"
               :comments="item.relations.comments"
               :date="item.dateCreated"
-              @like-action="handleLike"
+              @like-action="handleLike($event,index)"
     />
   </div>
 </template>

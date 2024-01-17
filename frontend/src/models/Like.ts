@@ -12,4 +12,13 @@ export class Like extends Generic {
         throw error.response.data.title;
       })
   }
+
+  public unlike = async (postId: string) => {
+    return await axios.delete(`${this.routeName}/unlike/${postId}`)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error(error.response);
+        throw error.response.data.title;
+      })
+  }
 }
