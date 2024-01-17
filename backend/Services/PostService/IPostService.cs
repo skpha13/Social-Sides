@@ -7,7 +7,7 @@ public interface IPostService
 {
     Task<List<PostDTO>> GetAllPosts();
     Task<bool> DeletePostById(Guid id);
-    List<PostIncludesDTO> GetPostsWithIncludes(string? include);
+    List<PostIncludesDTO> GetPostsWithIncludes(string? include, Guid userId);
     Task CreatePost(CreatePostUserDTO createPostDto);
     Task UpdatePost(UpdatePostDTO updatePostDto);
 }

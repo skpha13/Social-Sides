@@ -21,7 +21,7 @@ Visit the [API Documentation Website](https://social-sides.web.app/) for detaile
 - [x] Repository & Service pattern
 
 > Extra
-- [ ] Unit of work
+- [x] Unit of work
 - [ ] Specification Pattern
 - [ ] Chat with SignalR
 - [x] Identity Authentication
@@ -34,9 +34,9 @@ Visit the [API Documentation Website](https://social-sides.web.app/) for detaile
 
 ### Frontend (2 pt)
 > Required
-- [ ] At least 3 services connected to the API
-- [ ] 1 directive (minimum)
-- [ ] 1 pipe (minimum)
+- [x] At least 3 services connected to the API
+- [x] 1 directive (minimum)
+- [x] 1 pipe (minimum)
 - [X] Register + Login (reactive forms) + Guard implementation
 
 > Extra

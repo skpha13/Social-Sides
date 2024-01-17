@@ -29,10 +29,15 @@ public class PostService : IPostService
         return await _postRepository.SaveAsync();
     }
 
-    public List<PostIncludesDTO> GetPostsWithIncludes(string? include)
+    public List<PostIncludesDTO> GetPostsWithIncludes(string? include, Guid userId)
     {
         var posts = _postRepository.GetAllPostsWithIncludes(include);
-        return _mapper.Map<List<PostIncludesDTO>>(posts);
+        var mappedPosts = _mapper.Map<List<PostIncludesDTO>>(posts);
+        foreach (var post in mappedPosts)
+        {
+            post.isLikedByUser = _postRepository.IsLikedBy(userId, post.Id);
+        }
+        return mappedPosts;
     }
 
     public async Task CreatePost(CreatePostUserDTO payload)

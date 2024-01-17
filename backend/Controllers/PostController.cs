@@ -30,9 +30,12 @@ namespace backend.Controllers
         [ProducesResponseType(typeof(ErrorResponse), 500)]
         public IActionResult GetPostWithIncludes([FromQuery] string? include)
         {
-            var posts = _postService.GetPostsWithIncludes(include);
+            var userId = _userManager.GetUserId(User);
+            
+            var posts = _postService.GetPostsWithIncludes(include, new Guid(userId));
             if (posts.Any())
             {
+                // posts.Select(p => p.isLikedByUser = _postService.IsLikedBy(userId));
                 return Ok(posts);
             }
 

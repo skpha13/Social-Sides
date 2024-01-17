@@ -1,6 +1,8 @@
 using backend.Models;
+using backend.Models.DTOs.CommentDTOs;
 using backend.Models.Responses;
 using backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
@@ -22,21 +24,13 @@ namespace backend.Controllers
             _userManager = userManager;
         }
         
-        [HttpPost("like/{postId}")]
+        [Authorize]
         [ProducesResponseType(typeof(ErrorResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
+        [HttpPost("like/{postId}")]
         public async Task<IActionResult> LikePost(Guid postId)
         {
             var userId = _userManager.GetUserId(User);
-            if (userId == null)
-            {
-                return NotFound(new ErrorResponse()
-                {
-                    StatusCode = 404,
-                    Message = "User not logged in"
-                });
-            }
 
             try
             {
@@ -56,6 +50,90 @@ namespace backend.Controllers
                 StatusCode = 200,
                 Message = "Liked post"
             });
+        }
+        
+        [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [HttpDelete("unlike/{postId}")]
+        public async Task<IActionResult> UnlikePost(Guid postId)
+        {
+            var userId = new Guid(_userManager.GetUserId(User));
+
+            try
+            {
+                await _postActionService.UnlikePost(userId, postId);
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Unliked post"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
+        }
+
+        [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [HttpPost("comment")]
+        public async Task<IActionResult> CommentOnPost([FromBody] CreateCommentDTO commentDto)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            try
+            {
+                await _postActionService.CommentOnPost(userId, commentDto);
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Comment sent"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
+        }
+
+        [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [HttpDelete("delete-comment/{commentId}")]
+        public async Task<IActionResult> DeleteComment(Guid commentId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            try
+            {
+                await _postActionService.DeleteComment(new Guid(userId), commentId);
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Comment deleted"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
         }
     }
 }
