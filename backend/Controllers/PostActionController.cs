@@ -81,6 +81,8 @@ namespace backend.Controllers
         }
 
         [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
         [HttpPost("comment")]
         public async Task<IActionResult> CommentOnPost([FromBody] CreateCommentDTO commentDto)
         {
@@ -94,6 +96,34 @@ namespace backend.Controllers
                 {
                     StatusCode = 200,
                     Message = "Comment sent"
+                });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new ErrorResponse()
+                {
+                    StatusCode = 400,
+                    Message = exception.Message
+                });
+            }
+        }
+
+        [Authorize]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        [HttpDelete("delete-comment/{commentId}")]
+        public async Task<IActionResult> DeleteComment(Guid commentId)
+        {
+            var userId = _userManager.GetUserId(User);
+
+            try
+            {
+                await _postActionService.DeleteComment(new Guid(userId), commentId);
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Comment deleted"
                 });
             }
             catch (Exception exception)

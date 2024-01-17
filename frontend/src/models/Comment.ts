@@ -12,6 +12,15 @@ export class Comment extends Generic {
         throw error.response.data.title;
       })
   }
+
+  public deleteComment = async (commentId: string) => {
+    return await axios.delete(`${this.routeName}/delete-comment/${commentId}`)
+      .then((response) => response.data)
+      .catch((error) => {
+        console.error(error.response);
+        throw error.response.data.title;
+      })
+  }
 }
 
 export interface IComment {

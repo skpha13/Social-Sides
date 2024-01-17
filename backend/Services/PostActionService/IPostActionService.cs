@@ -8,5 +8,6 @@ public interface IPostActionService
     Task LikePost(string userId, Guid postId);
     Task UnlikePost(Guid userId, Guid postId);
     Task CommentOnPost(string userId, CreateCommentDTO commentDto);
+    Task DeleteComment(Guid userId, Guid commentId);
     Task SaveAsync();
 }

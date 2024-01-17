@@ -92,6 +92,9 @@ const handleCommentSubmit = async (payload: any) => {
     try {
       const index = posts.value[postIndex.value].relations.comments.findIndex((value) => value.id === payload.commentId);
       posts.value[postIndex.value].relations.comments.splice(index,1);
+
+      let response = await commentWorker.deleteComment(payload.commentId);
+      toast.success(response.message);
     } catch (error: any) {
       toast.error(error);
     }

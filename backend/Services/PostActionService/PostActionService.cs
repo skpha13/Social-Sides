@@ -128,6 +128,18 @@ public class PostActionService : IPostActionService
         await _dbContext.SaveChangesAsync();
     }
 
+    public async Task DeleteComment(Guid userId, Guid commentId)
+    {
+        var response = _commentRepository.DeleteById(commentId);
+
+        if (!response)
+        {
+            throw new Exception("Comment not found");
+        }
+        
+        await _dbContext.SaveChangesAsync();
+    }
+
     public async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync();
