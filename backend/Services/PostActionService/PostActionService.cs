@@ -105,14 +105,20 @@ public class PostActionService : IPostActionService
         Comment comment = _mapper.Map<Comment>(commentDto);
         comment.UserId = new Guid(userId);
         
+        DeviceTokenDTO? deviceToken = _postRepository.GetUserNameDeviceToken(commentDto.PostId);
+        if (deviceToken == null || deviceToken.UserName == null || deviceToken.DeviceToken == null)
+        {
+            throw new Exception("Cannot send notification");
+        }
+        
         var messageToSend = new Message()
         {
             Notification = new Notification()
             {
                 Title = "Social-Sides",
-                Body = $"{post.User.UserName} commented on your post!"
+                Body = $"{deviceToken.UserName} liked your post!"
             },
-            Token = post.User.DeviceToken
+            Token = deviceToken.DeviceToken
         };
 
         var messaging = FirebaseMessaging.DefaultInstance;
