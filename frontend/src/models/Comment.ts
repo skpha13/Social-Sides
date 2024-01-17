@@ -15,7 +15,9 @@ export class Comment extends Generic {
 }
 
 export interface IComment {
+  id: string,
   text: string,
+  userId: string,
   userName: string,
   lastModified: string
 }

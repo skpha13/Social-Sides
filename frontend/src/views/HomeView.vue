@@ -76,7 +76,9 @@ const handleCommentSubmit = async (payload: any) => {
   try {
     let response = await commentWorker.comment(payload);
     posts.value[postIndex.value].relations.comments.push({
+      id: "",
       text: payload.text,
+      userId: "",
       userName: "You",
       lastModified: Date.now().toString()
     });
@@ -85,7 +87,16 @@ const handleCommentSubmit = async (payload: any) => {
     toast.error(error);
   }
 }
-// TODO: reset answer
+
+  const handleCommentDelete = async (payload: any) => {
+    try {
+      const index = posts.value[postIndex.value].relations.comments.findIndex((value) => value.id === payload.commentId);
+      posts.value[postIndex.value].relations.comments.splice(index,1);
+    } catch (error: any) {
+      toast.error(error);
+    }
+  }
+
 const closePopup = () => {
   showPopup.value = false;
 }
@@ -124,6 +135,7 @@ const closePopup = () => {
   <CommentsPopUp v-if="showPopup"
                  @close-popup="closePopup"
                  @comment-submit="handleCommentSubmit"
+                 @comment-delete="handleCommentDelete"
                  :comments="commentsPopup"
                  :postId="postId"
   />

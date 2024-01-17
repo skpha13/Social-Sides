@@ -16,6 +16,9 @@ const emits = defineEmits<{
   (e: 'comment-submit', payload: {
     postId: string,
     text: string
+  }): void,
+  (e: 'comment-delete', payload: {
+    commentId: string
   }): void
 }>();
 
@@ -28,6 +31,10 @@ const submitComment = () => {
   });
 
   text.value = "";
+}
+
+const handleCommentDeleteEmit = (payload: any) => {
+  emits('comment-delete', payload);
 }
 
 </script>
@@ -52,6 +59,7 @@ const submitComment = () => {
           <Comment v-for="(item,index) in props.comments"
                    :key="index"
                    :comments="item"
+                   @comment-delete="handleCommentDeleteEmit"
           />
         </div>
 

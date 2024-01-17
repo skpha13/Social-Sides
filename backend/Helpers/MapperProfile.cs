@@ -81,6 +81,7 @@ public class MapperProfile : AutoMapper.Profile
                     } : null,
                     Comments = (src.Comments != null) ? src.Comments.Select(c => new CommentDTO()
                     {
+                        Id = c.Id,
                         Text = c.Text,
                         UserId = (c.User != null) ? c.User.Id : null,
                         UserName = (c.User != null) ? c.User.UserName : null,
