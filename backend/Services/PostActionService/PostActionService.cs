@@ -116,7 +116,7 @@ public class PostActionService : IPostActionService
             Notification = new Notification()
             {
                 Title = "Social-Sides",
-                Body = $"{deviceToken.UserName} liked your post!"
+                Body = $"{deviceToken.UserName} commented on your post!"
             },
             Token = deviceToken.DeviceToken
         };

@@ -7,7 +7,7 @@ import PostCard from '@/components/PostCard.vue'
 import PageTitle from '@/components/PageTitle.vue'
 import { Like } from '@/models/Like'
 import { useToast } from 'vue-toastification'
-import type { IComment } from '@/models/Comment'
+import { Comment, type IComment } from '@/models/Comment'
 import CommentsPopUp from '@/components/CommentsPopUp.vue'
 
 const toast = useToast();
@@ -45,11 +45,11 @@ const handleLike = async (payload: any, index: number) => {
   try {
     if (payload.option) {
       posts.value[index].totalLikes += 1;
-      let response = await likeWorker.like(payload.postId);
+      await likeWorker.like(payload.postId);
       fetchPosts();
     } else {
       posts.value[index].totalLikes -= 1;
-      let response = await likeWorker.unlike(payload.postId);
+      await likeWorker.unlike(payload.postId);
       fetchPosts();
     }
   } catch (error: any) {
@@ -61,15 +61,31 @@ const handleLike = async (payload: any, index: number) => {
 // ======== COMMENTS ACTION ========
 const commentWorker = new Comment();
 const postId = ref<string>("");
+const postIndex = ref<number>(0);
 const commentsPopup = ref<IComment[]>([]);
 const showPopup = ref<boolean>(false);
 
-const handleCommentsPopup = (payload: any) => {
+const handleCommentsPopup = (payload: any, index:number) => {
   commentsPopup.value = payload.comments;
   postId.value = payload.postId;
+  postIndex.value = index;
   showPopup.value = true;
 }
 
+const handleCommentSubmit = async (payload: any) => {
+  try {
+    let response = await commentWorker.comment(payload);
+    posts.value[postIndex.value].relations.comments.push({
+      text: payload.text,
+      userName: "You",
+      lastModified: Date.now().toString()
+    });
+    toast.success(response.message);
+  } catch (error: any) {
+    toast.error(error);
+  }
+}
+// TODO: reset answer
 const closePopup = () => {
   showPopup.value = false;
 }
@@ -101,12 +117,13 @@ const closePopup = () => {
               :comments="item.relations.comments"
               :date="item.dateCreated"
               @like-action="handleLike($event,index)"
-              @comment-popup="handleCommentsPopup"
+              @comment-popup="handleCommentsPopup($event,index)"
     />
   </div>
 
   <CommentsPopUp v-if="showPopup"
                  @close-popup="closePopup"
+                 @comment-submit="handleCommentSubmit"
                  :comments="commentsPopup"
                  :postId="postId"
   />
