@@ -39,5 +39,21 @@ namespace backend.Controllers
                 Message = "Joined category"
             });
         }
+
+        [Authorize]
+        [HttpDelete("unfollow")]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 400)]
+        public async Task<IActionResult> UnjoinCategory([FromBody] JoinCategoryDTO category)
+        {
+            var userId = new Guid(_userManager.GetUserId(User));
+            var categoryId = category.Id;
+
+            var result = await _joinCategoryService.UnjoinCategory(userId, categoryId);
+
+            return result
+                ? Ok(new ErrorResponse() { StatusCode = 200, Message = "Unfollowed Category" })
+                : BadRequest(new ErrorResponse() { StatusCode = 400, Message = "Error encounterd" });
+        }
     }
 }
