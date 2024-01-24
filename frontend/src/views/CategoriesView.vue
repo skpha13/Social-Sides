@@ -21,6 +21,7 @@ const fetchCategories = async () => {
 fetchCategories();
 // ====================================
 
+// ======== JOIN CATEGORY ========
 const joinCategory = async (id: string) => {
   let payload = {
     id: id
@@ -33,10 +34,33 @@ const joinCategory = async (id: string) => {
   } else {
     toast.error(response.message);
   }
+
   areCategoriesLoaded.value = false;
   categories.value = await categoryWorker.all();
   areCategoriesLoaded.value = true;
 }
+// ===============================
+
+// ======== UNJOIN CATEGORY ========
+const unjoinCategory = async (id: string) => {
+  let payload = {
+    id: id
+  }
+
+  const joinWorker = new JoinCategory();
+  let response = await joinWorker.unjoin(payload);
+
+  if (response.statusCode == 200) {
+    toast.success(response.message);
+  } else {
+    toast.error(response.propertyIsEnumerable);
+  }
+
+  areCategoriesLoaded.value = false;
+  categories.value = await categoryWorker.all();
+  areCategoriesLoaded.value = true;
+}
+// =================================
 
 </script>
 
@@ -47,6 +71,7 @@ const joinCategory = async (id: string) => {
        class="m-4">
     <CategorySection v-for="item in categories"
                      @join-category="id => joinCategory(id)"
+                     @unjoin-category="id => unjoinCategory(id)"
                      :key="item.id"
                      :id="item.id"
                      :title="item.title"

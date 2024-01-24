@@ -23,11 +23,7 @@ public class JoinCategoryRepository: IJoinCategoryRepository
 
     public bool Delete(Guid userId, Guid categoryId)
     {
-        var entity = _table.Find(new
-        {
-            userId,
-            categoryId
-        });
+        var entity = _table.Find(userId, categoryId);
         if (entity == null) return false;
         _table.Remove(entity);
         return true;
