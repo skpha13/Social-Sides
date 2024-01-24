@@ -249,6 +249,5 @@ namespace backend.Controllers
         
         // TODO: Make a new Sendinblue account
         // TODO: get all posts from user
-        // TODO: join with UserFollowsCategory and Category
     }
 }

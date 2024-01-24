@@ -88,22 +88,37 @@ const handleCommentSubmit = async (payload: any) => {
   }
 }
 
-  const handleCommentDelete = async (payload: any) => {
-    try {
-      const index = posts.value[postIndex.value].relations.comments.findIndex((value) => value.id === payload.commentId);
-      posts.value[postIndex.value].relations.comments.splice(index,1);
+const handleCommentDelete = async (payload: any) => {
+  try {
+    const index = posts.value[postIndex.value].relations.comments.findIndex((value) => value.id === payload.commentId);
+    posts.value[postIndex.value].relations.comments.splice(index,1);
 
-      let response = await commentWorker.deleteComment(payload.commentId);
-      toast.success(response.message);
-    } catch (error: any) {
-      toast.error(error);
-    }
+    let response = await commentWorker.deleteComment(payload.commentId);
+    toast.success(response.message);
+  } catch (error: any) {
+    toast.error(error);
   }
+}
 
 const closePopup = () => {
   showPopup.value = false;
 }
 // =================================
+
+// TODO: make ALL button so i can reset filtering
+// ======== FILTER POSTS ========
+const handleFilterByCategory = async (id: string) => {
+  await fetchPosts();
+
+  posts.value = posts.value.filter(item => {
+    return item.relations.category && item.relations.category.id === id;
+  });
+}
+
+const handleResetPosts = async () => {
+  await fetchPosts();
+}
+// ==============================
 </script>
 
 <template>
@@ -111,7 +126,15 @@ const closePopup = () => {
 
 <!-- TODO: clicking on a category loads posts only from it -->
   <div v-if="areCategoriesLoaded" class="flex overflow-x-auto m-4 whitespace-nowrap pb-4">
+    <button
+      @click="handleResetPosts"
+      class="text-sm text-center
+            border rounded-xl py-0.5 px-4 mx-4 min-w-[80px]
+            hover:backdrop-brightness-200
+      ">All</button>
+
     <CategoryDisplay
+      @filter-by-category="id => handleFilterByCategory(id)"
       v-for="item in categories"
       :key="item.id"
       :id="item.id"
