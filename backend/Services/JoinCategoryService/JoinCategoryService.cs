@@ -24,4 +24,11 @@ public class JoinCategoryService: IJoinCategoryService
         }));
         await _joinCategoryRepository.SaveAsync();
     }
+
+    public async Task<bool> UnjoinCategory(Guid userId, Guid categoryId)
+    {
+        var result = _joinCategoryRepository.Delete(userId, categoryId);
+        await _joinCategoryRepository.SaveAsync();
+        return result;
+    }
 }

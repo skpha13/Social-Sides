@@ -9,11 +9,26 @@ export class JoinCategory extends Generic {
       .then((response) => response.data)
       .catch((error) => {
         if (error.response.status == 404) {
-          // TODO: router.push({name: 'notfound'});
           console.log(error.response.data.message);
         }
         console.error(error.response);
         return {};
       });
+  }
+
+  public unjoin = async (payload: any) => {
+    return await axios({
+      method: 'delete',
+      url: `${this.routeName}/unfollow`,
+      data: payload
+    })
+      .then((response) => response.data)
+      .catch((error) => {
+        if (error.response.status == 400) {
+          console.log(error.response.data.message);
+        }
+        console.error(error.response);
+        return {};
+      })
   }
 }

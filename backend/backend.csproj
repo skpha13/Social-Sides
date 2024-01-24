@@ -30,10 +30,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\NotificationRepository\" />
-    <Folder Include="Repositories\NotificationTypeRepository\" />
-    <Folder Include="Repositories\ProfileRepository\" />
-  </ItemGroup>
-
 </Project>

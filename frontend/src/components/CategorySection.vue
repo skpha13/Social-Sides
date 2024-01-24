@@ -10,7 +10,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'join-category', id: string): void
+  (e: 'join-category', id: string): void,
+  (e: 'unjoin-category', id:string): void
 }>();
 interface ICategoryId {
   id: string
@@ -51,9 +52,10 @@ const checkCategoryMembership = () => {
       <FontAwesomeIcon icon="fa-solid fa-plus" size="sm" class="relative top-[0.04rem]"/>
     </div>
     <div v-else
-         class="flex items-center w-24 justify-center border rounded-lg px-4 mb-2 hover:cursor-default"
+         @click="emit('unjoin-category', props.id)"
+         class="flex items-center w-24 justify-center border rounded-lg px-4 mb-2 hover:cursor-pointer"
          :style="{borderColor: props.color, background: props.color}">
-      <p class="text-base font-semibold text-backgroundLight-default dark:text-backgroundDark-default">Joined</p>
+      <p class="text-base font-semibold text-backgroundLight-default dark:text-backgroundDark-default">Unfollow</p>
     </div>
   </div>
 </template>
