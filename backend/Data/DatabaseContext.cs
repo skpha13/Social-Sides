@@ -12,7 +12,6 @@ namespace backend.Data
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserFollowsCategory> UserFollowsCategories { get; set; }
 		public DbSet<Comment> Comments { get; set; }
-		public DbSet<Saved> Saves { get; set; }
 		public DbSet<Liked> Likes { get; set; }
 		
 		public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
@@ -60,21 +59,6 @@ namespace backend.Data
 				.HasMany(p => p.Comments)
 				.WithOne(c => c.Post)
 				.HasForeignKey(c => c.PostId)
-				.OnDelete(DeleteBehavior.Cascade);
-
-			// User - Saves - Post
-			modelBuilder.Entity<Saved>().HasKey(ob => new { ob.UserId, ob.PostId });
-
-			modelBuilder.Entity<User>()
-				.HasMany(u => u.Saves)
-				.WithOne(s => s.User)
-				.HasForeignKey(s => s.UserId)
-				.OnDelete(DeleteBehavior.NoAction);
-
-			modelBuilder.Entity<Post>()
-				.HasMany(p => p.Saves)
-				.WithOne(s => s.Post)
-				.HasForeignKey(s => s.PostId)
 				.OnDelete(DeleteBehavior.Cascade);
 			
 			// User - Likes - Post
