@@ -1,2 +1,2 @@
-/public/index.html linguist-vendored
-/public/404.html linguist-vendored
+public/* linguist-vendored
+public/** linguist-vendored
