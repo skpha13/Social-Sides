@@ -83,13 +83,9 @@ namespace backend.Controllers
                 {
                     existingUser.Email = user.Email;
                 }
-                if (string.IsNullOrEmpty(user.Password) == false)
-                {
-                    var hash = new PasswordHasher<User>();
-                    existingUser.PasswordHash = hash.HashPassword(null, user.Password);
-                }
 
                 await _userManager.UpdateAsync(existingUser);
+                await _userService.SaveAsync();
                 
                 return Ok(new ErrorResponse()
                 {

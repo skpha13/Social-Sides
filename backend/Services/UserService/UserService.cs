@@ -167,4 +167,9 @@ public class UserService : IUserService
         existingUser.DeviceToken = deviceToken;
         await _userRepository.Update(existingUser);
     }
+
+    public async Task SaveAsync()
+    {
+        await _userRepository.SaveAsync();
+    }
 }
