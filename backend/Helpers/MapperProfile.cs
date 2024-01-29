@@ -48,10 +48,8 @@ public class MapperProfile : AutoMapper.Profile
                 opt.MapFrom(src => false))
             .ForMember(u => u.SecurityStamp, opt =>
                 opt.Ignore());
-        
-        CreateMap<UserUpdateDTO, User>()
-            .ForMember(u => u.PasswordHash, opt => 
-                opt.MapFrom(src => hasher.HashPassword(null, src.Password)));
+
+        CreateMap<UserUpdateDTO, User>();
         
         CreateMap<SignUpDTO, User>()
             .ForMember(u => u.Id, opt => 

@@ -1,4 +1,5 @@
-﻿using backend.Models;
+﻿using backend.Data;
+using backend.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace backend.Repositories.UserRepository;
@@ -6,10 +7,12 @@ namespace backend.Repositories.UserRepository;
 public class UserRepository : IUserRepository
 {
     private readonly UserManager<User> _userManager;
+    private readonly DatabaseContext _dbContext;
 
-    public UserRepository(UserManager<User> userManager)
+    public UserRepository(UserManager<User> userManager, DatabaseContext dbContext)
     {
         _userManager = userManager;
+        _dbContext = dbContext;
     }
 
     public async Task<User>? GetUserById(Guid id)
@@ -47,5 +50,10 @@ public class UserRepository : IUserRepository
         
         if ((await _userManager.DeleteAsync(existingUser)).Succeeded == false)
             throw new Exception("User delete failed");
+    }
+
+    public async Task SaveAsync()
+    {
+        await _dbContext.SaveChangesAsync();
     }
 }

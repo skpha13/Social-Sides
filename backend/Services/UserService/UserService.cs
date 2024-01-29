@@ -48,24 +48,6 @@ public class UserService : IUserService
         return _mapper.Map<UserDTO>(userMapped);
     }
 
-    public async Task<UserDTO> Update(UserUpdateDTO user)
-    {
-        var existingUser = await _userRepository.GetUserById(user.Id);
-
-        if (existingUser == null)
-        {
-            throw new Exception("User not found");
-        }
-        
-        var hasher = new PasswordHasher<User>();
-        if (user.UserName != null) existingUser.UserName = user.UserName;
-        if (user.Email != null) existingUser.Email = user.Email;
-        if (user.Password != null) existingUser.PasswordHash = hasher.HashPassword(null, user.Password);
-        
-        await _userRepository.Update(existingUser);
-        return _mapper.Map<UserDTO>(existingUser);
-    }
-
     public async Task Delete(Guid userId)
     {
         await _userRepository.Delete(userId);
@@ -184,5 +166,10 @@ public class UserService : IUserService
 
         existingUser.DeviceToken = deviceToken;
         await _userRepository.Update(existingUser);
+    }
+
+    public async Task SaveAsync()
+    {
+        await _userRepository.SaveAsync();
     }
 }

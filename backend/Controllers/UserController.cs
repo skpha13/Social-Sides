@@ -67,13 +67,31 @@ namespace backend.Controllers
 
         [Authorize]
         [HttpPatch("update")]
-        [ProducesResponseType(typeof(UserDTO), 200)]
+        [ProducesResponseType(typeof(ErrorResponse), 200)]
         [ProducesResponseType(typeof(ErrorResponse), 400)]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateDTO user)
         {
             try
             {
-                return Ok(await _userService.Update(user));
+                var existingUser = await _userManager.GetUserAsync(User);
+
+                if (string.IsNullOrEmpty(user.UserName) == false)
+                {
+                    existingUser.UserName = user.UserName;
+                }
+                if (string.IsNullOrEmpty(user.Email) == false)
+                {
+                    existingUser.Email = user.Email;
+                }
+
+                await _userManager.UpdateAsync(existingUser);
+                await _userService.SaveAsync();
+                
+                return Ok(new ErrorResponse()
+                {
+                    StatusCode = 200,
+                    Message = "Update successfull"
+                });
             }
             catch (Exception exception)
             {
